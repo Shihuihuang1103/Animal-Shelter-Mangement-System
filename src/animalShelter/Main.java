@@ -1,39 +1,47 @@
 package animalShelter;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Main extends JFrame{
-    private JButton loginButton;
-    private JButton adoptButton;
-    private JButton appointmentButton;
-    private JPanel mainPanel;
-    public Main(){
-        // Set the title of the window
-        setTitle("Lovely Paw Animal Shelter");
 
-        // Create a new button for logging in
-        loginButton = new JButton("Admin Login");
-        adoptButton = new JButton("Adopt A Pet");
-        appointmentButton = new JButton("Make An Appointment");
-        // Set the layout manager of the window to null
-        setLayout(null);
-
-        // Add the login button to the window
-        loginButton.setBounds(600, 10, 150, 30); // Set the position and size of the button
-        add(loginButton);
-
-        adoptButton.setBounds(100, 500, 150, 30);
-        add(adoptButton);
-
-        appointmentButton.setBounds(500, 500, 180, 30);
-        add(appointmentButton);
-        // Set the size of the window
-        setSize(800, 600);
-
-        // Set the window to be visible
+    public Main() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setBackground(Color.white);
+        setupPanels();
+        setSize(1000,800);
         setVisible(true);
     }
-    public static void main(String[] args) {
+
+    public void setupPanels()  {
+        JPanel mainPanel = new JPanel();
+
+        JLabel welcome = new JLabel("Lovely Paws Animal Shelter");
+        welcome.setFont(new Font("Serif", Font.PLAIN, 40));
+        welcome.setLocation(400, 50);
+        welcome.setForeground(new Color(120, 90, 40));
+        welcome.setBackground(new Color(100, 20, 70));
+        mainPanel.add(welcome);
+
+        JButton login = new JButton("Admin Login");
+        JButton appointment = new JButton("Make an Appointment");
+        JButton adopt = new JButton("Adopt A Pet");
+
+
+        mainPanel.add(login);
+        mainPanel.add(appointment);
+        mainPanel.add(adopt);
+
+        this.add(mainPanel);
+
+    }
+
+
+    public static void main(String[] args)  {
         // Create a new instance of the LoginGUI class
         Main page = new Main();
     }
