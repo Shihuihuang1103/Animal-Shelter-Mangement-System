@@ -15,7 +15,7 @@ public class Adopt extends JFrame {
 
     public Adopt() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBackground(Color.white);
+        setTitle("Adoption");
         setupPanels();
         setBounds(100, 100, 800, 550);
         //setSize(1000, 800);
@@ -26,8 +26,8 @@ public class Adopt extends JFrame {
         mainPanel.setBackground(new Color(246, 246, 246));
 
         setContentPane(mainPanel);
-
         JLabel adopt = new JLabel("Start Your Adoption");
+        adopt.setVerticalAlignment(SwingConstants.TOP);
         adopt.setHorizontalAlignment(SwingConstants.CENTER);
         adopt.setForeground(new Color(246, 148, 67));
         adopt.setFont(new Font("Lava Kannada", Font.PLAIN, 40));
@@ -70,22 +70,24 @@ public class Adopt extends JFrame {
         JLabel statement = new JLabel("Statement: (up to 500 words)");
         statement.setFont(new Font("Lava Kannada", Font.PLAIN, 15));
 
-        JTextArea statementInput = new JTextArea();
-
         JButton submit = new JButton("Submit");
 
         JButton home = new JButton("Homepage");
+
+        JLabel messageLabel = new JLabel("");
+        messageLabel.setFont(new Font("Lava Kannada", Font.PLAIN, 15));
+
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
         gl_mainPanel.setHorizontalGroup(
                 gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(gl_mainPanel.createSequentialGroup()
                                 .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
                                         .addGroup(gl_mainPanel.createSequentialGroup()
-                                                .addGap(215)
-                                                .addComponent(adopt))
-                                        .addGroup(gl_mainPanel.createSequentialGroup()
                                                 .addGap(252)
-                                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
                                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                                 .addComponent(lastname, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -98,60 +100,74 @@ public class Adopt extends JFrame {
                                                                 .addComponent(phone, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(phoneInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(gl_mainPanel.createSequentialGroup()
-                                                                .addComponent(petID, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addComponent(petInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))
                                                         .addComponent(statement, GroupLayout.PREFERRED_SIZE, 221, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(statementInput)
                                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                                 .addComponent(firstname)
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(home, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(fnameInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE)))))
+                                                                .addComponent(fnameInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))
+                                                        .addComponent(messageLabel, GroupLayout.PREFERRED_SIZE, 327, GroupLayout.PREFERRED_SIZE)
+                                                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                                                .addComponent(petID, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(petInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))))
                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                 .addGap(349)
                                                 .addComponent(submit)))
-                                .addContainerGap(215, Short.MAX_VALUE))
-        );
-        gl_mainPanel.setVerticalGroup(
-                gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(gl_mainPanel.createSequentialGroup()
-                                .addGap(11)
+                                .addContainerGap(211, Short.MAX_VALUE))
+                        .addGroup(GroupLayout.Alignment.TRAILING, gl_mainPanel.createSequentialGroup()
+                                .addContainerGap(222, Short.MAX_VALUE)
                                 .addComponent(adopt)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(firstname)
-                                        .addComponent(fnameInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(lastname, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lnameInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(email, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(emailInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(phone, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(phoneInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(petID, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(petInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(statement, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(statementInput, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(submit)
-                                .addContainerGap(23, Short.MAX_VALUE))
+                                .addComponent(home, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
+                                .addGap(84))
                         .addGroup(GroupLayout.Alignment.TRAILING, gl_mainPanel.createSequentialGroup()
-                                .addContainerGap(63, Short.MAX_VALUE)
-                                .addComponent(home)
-                                .addGap(420))
+                                .addGap(237)
+                                .addComponent(scrollPane)
+                                .addGap(226))
         );
+        gl_mainPanel.setVerticalGroup(
+                gl_mainPanel.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(adopt)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(messageLabel, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(firstname)
+                                                        .addComponent(fnameInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(lastname, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(lnameInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(email, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(emailInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(phone, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(phoneInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(petID, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(petInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(statement, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18)
+                                                .addComponent(submit))
+                                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                                .addGap(23)
+                                                .addComponent(home)))
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        JTextArea statementInput = new JTextArea();
+        scrollPane.setViewportView(statementInput);
         mainPanel.setLayout(gl_mainPanel);
 
         home.addActionListener(new ActionListener() {
@@ -161,17 +177,6 @@ public class Adopt extends JFrame {
                 dispose();
             }
         });
-
-        mainPanel.add(adopt);
-        mainPanel.add(home);
-
-        //User input info for adoption
-        JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(5,1));
-
-        JLabel messageLabel = new JLabel();
-        messageLabel.setForeground(Color.red);
-        mainPanel.add(messageLabel);
 
         submit.addActionListener(new ActionListener() {
             @Override
@@ -195,6 +200,7 @@ public class Adopt extends JFrame {
                     pst.setString(6, statementStr);
                     int rowsAffected = pst.executeUpdate();
                     if(rowsAffected > 0){
+                        messageLabel.setForeground(new Color(51, 176, 63));
                         messageLabel.setText("Your adoption form has been submitted successfully!");
                         fnameInput.setText("");
                         lnameInput.setText("");
@@ -203,6 +209,7 @@ public class Adopt extends JFrame {
                         phoneInput.setText("");
                         statementInput.setText("");
                     } else {
+                        messageLabel.setForeground(Color.RED);
                         messageLabel.setText("Something went wrong!");
                     }
                 } catch (Exception ex) {
@@ -210,7 +217,5 @@ public class Adopt extends JFrame {
                 }
             }
         });
-        mainPanel.add(submit);
-
     }
 }
