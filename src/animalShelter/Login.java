@@ -30,7 +30,7 @@ public class Login extends JFrame {
 
         // Admin input username and password
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(2,1));
+        inputPanel.setLayout(new GridLayout(3,1));
         JLabel username = new JLabel("Username: ", JLabel.TRAILING);
 
         JTextField usernameInput = new JTextField(30);
@@ -53,6 +53,7 @@ public class Login extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Main().setVisible(true);
+                dispose();
             }
         });
         this.add(mainPanel);

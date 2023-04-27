@@ -70,6 +70,7 @@ public class Main extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Login().setVisible(true);
+                dispose();
             }
         });
 
@@ -77,6 +78,7 @@ public class Main extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Appointment().setVisible(true);
+                dispose();
             }
         });
 
@@ -84,6 +86,7 @@ public class Main extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Adopt().setVisible(true);
+                dispose();
             }
         });
 

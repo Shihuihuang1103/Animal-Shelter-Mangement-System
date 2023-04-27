@@ -27,6 +27,7 @@ public class Adopt extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Main().setVisible(true);
+                dispose();
             }
         });
 
