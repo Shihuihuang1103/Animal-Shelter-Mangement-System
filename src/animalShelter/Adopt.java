@@ -90,24 +90,29 @@ public class Adopt extends JFrame {
                                                 .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
                                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                                 .addComponent(lastname, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18)
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(lnameInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                                 .addComponent(email, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18)
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(emailInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                                 .addComponent(phone, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18)
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(phoneInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))
                                                         .addComponent(statement, GroupLayout.PREFERRED_SIZE, 221, GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                                 .addComponent(firstname)
+                                                                .addGap(18)
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(fnameInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))
                                                         .addComponent(messageLabel, GroupLayout.PREFERRED_SIZE, 327, GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                                 .addComponent(petID, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18)
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(petInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))))
                                         .addGroup(gl_mainPanel.createSequentialGroup()
@@ -185,7 +190,8 @@ public class Adopt extends JFrame {
                 String lnameStr = lnameInput.getText();
                 String emailStr = emailInput.getText();
                 String phoneStr = phoneInput.getText();
-                int petIDInt = Integer.parseInt(petInput.getText());
+                String petStr = petInput.getText();
+                int petIDInt = Integer.parseInt(petStr);
                 String statementStr = statementInput.getText();
 
                 String sql = "INSERT INTO `adoption` (`email`, `fname`, `lname`, `petID`, `phoneNum`, `statement`) VALUES (?, ?, ?, ?, ?, ?)";
@@ -208,7 +214,13 @@ public class Adopt extends JFrame {
                         petInput.setText("");
                         phoneInput.setText("");
                         statementInput.setText("");
-                    } else {
+                    }
+                    else if (fnameStr.isEmpty() ||lnameStr.isEmpty()||emailStr.isEmpty()||
+                    phoneStr.isEmpty()||phoneStr.isEmpty()||petStr.isEmpty()||statementStr.isEmpty()){
+                        messageLabel.setForeground(Color.RED);
+                        messageLabel.setText("Please fill in all the blanks.");
+                    }
+                    else {
                         messageLabel.setForeground(Color.RED);
                         messageLabel.setText("Something went wrong!");
                     }
