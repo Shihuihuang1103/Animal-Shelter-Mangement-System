@@ -196,6 +196,12 @@ public class Adopt extends JFrame {
                     int rowsAffected = pst.executeUpdate();
                     if(rowsAffected > 0){
                         messageLabel.setText("Your adoption form has been submitted successfully!");
+                        fnameInput.setText("");
+                        lnameInput.setText("");
+                        emailInput.setText("");
+                        petInput.setText("");
+                        phoneInput.setText("");
+                        statementInput.setText("");
                     } else {
                         messageLabel.setText("Something went wrong!");
                     }
