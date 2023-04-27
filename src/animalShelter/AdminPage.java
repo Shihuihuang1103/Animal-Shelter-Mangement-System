@@ -29,10 +29,7 @@ public class AdminPage extends JFrame {
 
         JButton removeButton = new JButton("Remove Animal");
         removeButton.setFont(new Font("Lava Kannada", Font.PLAIN, 18));
-        removeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
+
 
         JButton updateButton = new JButton("Update Animal");
         updateButton.setFont(new Font("Lava Kannada", Font.PLAIN, 18));
@@ -75,5 +72,29 @@ public class AdminPage extends JFrame {
                                 .addGap(26))
         );
         mainPanel.setLayout(gl_mainPanel);
+
+
+        removeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+
+        logOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Login().setVisible(true);
+                dispose();
+            }
+        });
+
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AddAnimal().setVisible(true);
+                dispose();
+            }
+        });
     }
+
+
 }
