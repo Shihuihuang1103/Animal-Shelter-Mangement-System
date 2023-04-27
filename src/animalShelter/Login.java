@@ -46,7 +46,7 @@ public class Login extends JFrame {
         pswd.setHorizontalAlignment(SwingConstants.TRAILING);
         pswd.setFont(new Font("Lava Kannada", Font.PLAIN, 15));
 
-        JTextField pswdInput = new JTextField();
+        JPasswordField pswdInput = new JPasswordField();
         pswd.setLabelFor(pswdInput);
         pswdInput.setColumns(10);
 
@@ -81,8 +81,8 @@ public class Login extends JFrame {
                                 .addContainerGap(359, Short.MAX_VALUE))
                         .addGroup(gl_mainPanel.createSequentialGroup()
                                 .addContainerGap(255, Short.MAX_VALUE)
-                                .addComponent(messageLabel, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
-                                .addGap(236))
+                                .addComponent(messageLabel, GroupLayout.PREFERRED_SIZE, 359, GroupLayout.PREFERRED_SIZE)
+                                .addGap(208))
         );
         gl_mainPanel.setVerticalGroup(
                 gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -133,6 +133,7 @@ public class Login extends JFrame {
                         messageLabel.setForeground(Color.GREEN);
                         messageLabel.setText("Login succeeded!");
                         new AdminPage().setVisible(true);
+                        dispose();
                     } else {
                         //login failed
                         messageLabel.setForeground(Color.RED);
