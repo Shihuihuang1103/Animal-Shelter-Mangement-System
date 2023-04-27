@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class JDBC {
-    String url = "jdbc:mysql://localhost:8889/LovelyPawsShelter";
+    String url = "jdbc:mysql://localhost:8080/LovelyPawsShelter";
     String username = "root";
     String password = "root";
     String jdbcName = "com.mysql.cj.jdbc.Driver";

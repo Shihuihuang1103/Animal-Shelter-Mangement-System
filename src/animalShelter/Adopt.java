@@ -4,8 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 public class Adopt extends JFrame {
+
+    private JDBC db = new JDBC();
+    private Connection connection;
 
     public Adopt() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
