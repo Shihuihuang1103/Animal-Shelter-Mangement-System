@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class Adopt extends JFrame {
 
@@ -159,5 +161,50 @@ public class Adopt extends JFrame {
                 dispose();
             }
         });
+
+        mainPanel.add(adopt);
+        mainPanel.add(home);
+
+        //User input info for adoption
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new GridLayout(5,1));
+
+        JLabel messageLabel = new JLabel();
+        messageLabel.setForeground(Color.red);
+        mainPanel.add(messageLabel);
+
+        submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String fnameStr = fnameInput.getText();
+                String lnameStr = lnameInput.getText();
+                String emailStr = emailInput.getText();
+                String phoneStr = phoneInput.getText();
+                int petIDInt = Integer.parseInt(petInput.getText());
+                String statementStr = statementInput.getText();
+
+                String sql = "INSERT INTO `adoption` (`email`, `fname`, `lname`, `petID`, `phoneNum`, `statement`) VALUES (?, ?, ?, ?, ?, ?)";
+                try {
+                    connection = db.getCon();
+                    PreparedStatement pst = connection.prepareStatement(sql);
+                    pst.setString(1, emailStr);
+                    pst.setString(2, fnameStr);
+                    pst.setString(3, lnameStr);
+                    pst.setInt(4, petIDInt);
+                    pst.setString(5, phoneStr);
+                    pst.setString(6, statementStr);
+                    int rowsAffected = pst.executeUpdate();
+                    if(rowsAffected > 0){
+                        messageLabel.setText("Your adoption form has been submitted successfully!");
+                    } else {
+                        messageLabel.setText("Something went wrong!");
+                    }
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        mainPanel.add(submit);
+
     }
 }
