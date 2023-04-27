@@ -16,47 +16,129 @@ public class Login extends JFrame {
     private Connection connection;
 
     public Login() {
+        setTitle("Admin Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBackground(Color.white);
+        setBounds(100, 100, 800, 550);
         setupPanels();
-        setSize(1000,800);
+        //etSize(1000,800);
     }
 
     public void setupPanels()  {
         JPanel mainPanel = new JPanel();
+        setContentPane(mainPanel);
+
+        JLabel username = new JLabel("Username: ");
+        username.setHorizontalAlignment(SwingConstants.TRAILING);
+        username.setFont(new Font("Lava Kannada", Font.PLAIN, 15));
 
         JLabel login = new JLabel("Admin Login");
-        login.setFont(new Font("Serif", Font.PLAIN, 40));
-        login.setLocation(250, 50);
-        login.setForeground(new Color(65, 162, 159));
-        login.setBackground(new Color(100, 20, 70));
-        mainPanel.add(login);
-        JButton home = new JButton("Homepage");
-        mainPanel.add(home);
-        JLabel messageLabel = new JLabel();
-        messageLabel.setForeground(Color.red);
-        mainPanel.add(messageLabel);
+        login.setHorizontalAlignment(SwingConstants.CENTER);
+        login.setForeground(new Color(90, 157, 155));
+        login.setFont(new Font("Lava Kannada", Font.PLAIN, 40));
 
-        // Admin input username and password
-        JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(2,1));
-        JLabel username = new JLabel("Username: ", JLabel.TRAILING);
-
-        JTextField usernameInput = new JTextField(30);
+        JTextField usernameInput = new JTextField();
         username.setLabelFor(usernameInput);
+        usernameInput.setColumns(10);
 
-        JLabel pswd = new JLabel("Password: ", JLabel.TRAILING);
+        JButton home = new JButton("Homepage");
 
-        JTextField pswdInput = new JTextField(30);
+        JLabel pswd = new JLabel("Password: ");
+        pswd.setHorizontalAlignment(SwingConstants.TRAILING);
+        pswd.setFont(new Font("Lava Kannada", Font.PLAIN, 15));
+
+        JTextField pswdInput = new JTextField();
         pswd.setLabelFor(pswdInput);
-        inputPanel.add(username);
-        inputPanel.add(usernameInput);
-        inputPanel.add(pswd);
-        inputPanel.add(pswdInput);
-        mainPanel.add(inputPanel);
+        pswdInput.setColumns(10);
 
         JButton loginButton = new JButton("Login");
-        mainPanel.add(loginButton);
+
+        JLabel messageLabel = new JLabel("");
+        messageLabel.setFont(new Font("Lava Kannada", Font.PLAIN, 13));
+        GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
+        gl_mainPanel.setHorizontalGroup(
+                gl_mainPanel.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                .addContainerGap(291, Short.MAX_VALUE)
+                                .addComponent(login)
+                                .addGap(267))
+                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                .addGap(241)
+                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                                .addComponent(username, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addComponent(home)
+                                                        .addComponent(usernameInput, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                                .addComponent(pswd, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(pswdInput, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap(246, Short.MAX_VALUE))
+                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                .addGap(352)
+                                .addComponent(loginButton)
+                                .addContainerGap(359, Short.MAX_VALUE))
+                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                .addContainerGap(255, Short.MAX_VALUE)
+                                .addComponent(messageLabel, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
+                                .addGap(236))
+        );
+        gl_mainPanel.setVerticalGroup(
+                gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                .addGap(12)
+                                .addComponent(login)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(home)
+                                .addGap(33)
+                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(username, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(usernameInput, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(pswd, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(pswdInput, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(messageLabel, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+                                .addGap(12)
+                                .addComponent(loginButton)
+                                .addContainerGap(198, Short.MAX_VALUE))
+        );
+        mainPanel.setLayout(gl_mainPanel);
+//        JLabel login = new JLabel("Admin Login");
+//        login.setFont(new Font("Serif", Font.PLAIN, 40));
+//        login.setLocation(250, 50);
+//        login.setForeground(new Color(65, 162, 159));
+//        login.setBackground(new Color(100, 20, 70));
+//        mainPanel.add(login);
+//        JButton home = new JButton("Homepage");
+//        mainPanel.add(home);
+//        JLabel messageLabel = new JLabel();
+//        messageLabel.setForeground(Color.red);
+//        mainPanel.add(messageLabel);
+
+        // Admin input username and password
+//        JPanel inputPanel = new JPanel();
+//        inputPanel.setLayout(new GridLayout(2,1));
+//        JLabel username = new JLabel("Username: ", JLabel.TRAILING);
+//
+//        JTextField usernameInput = new JTextField(30);
+//        username.setLabelFor(usernameInput);
+//
+//        JLabel pswd = new JLabel("Password: ", JLabel.TRAILING);
+//
+//        JTextField pswdInput = new JTextField(30);
+//        pswd.setLabelFor(pswdInput);
+//        inputPanel.add(username);
+//        inputPanel.add(usernameInput);
+//        inputPanel.add(pswd);
+//        inputPanel.add(pswdInput);
+//        mainPanel.add(inputPanel);
+//
+//        JButton loginButton = new JButton("Login");
+//        mainPanel.add(loginButton);
 
         home.addActionListener(new ActionListener() {
             @Override
@@ -81,10 +163,12 @@ public class Login extends JFrame {
                     ResultSet rs = pst.executeQuery();
                     if(rs.next()){
                         //login succeeded, redirect to next page
+                        messageLabel.setForeground(Color.GREEN);
                         messageLabel.setText("Login succeeded!");
                         new AdminPage().setVisible(true);
                     } else {
                         //login failed
+                        messageLabel.setForeground(Color.RED);
                         messageLabel.setText("Login failed. Please check your username and password.");
                     }
                 } catch (Exception ex) {
@@ -94,6 +178,6 @@ public class Login extends JFrame {
             }
         });
 
-        this.add(mainPanel);
+        //this.add(mainPanel);
     }
 }
