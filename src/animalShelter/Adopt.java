@@ -15,18 +15,143 @@ public class Adopt extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBackground(Color.white);
         setupPanels();
-        setSize(1000, 800);
+        setBounds(100, 100, 800, 550);
+        //setSize(1000, 800);
     }
 
     public void setupPanels() {
         JPanel mainPanel = new JPanel();
-        JLabel adopt = new JLabel("Adopt A Pet");
-        adopt.setFont(new Font("Serif", Font.PLAIN, 40));
-        adopt.setLocation(400, 50);
-        adopt.setForeground(new Color(220, 110, 52));
-        adopt.setBackground(new Color(100, 20, 70));
+        mainPanel.setBackground(new Color(246, 246, 246));
+
+        setContentPane(mainPanel);
+
+        JLabel adopt = new JLabel("Start Your Adoption");
+        adopt.setHorizontalAlignment(SwingConstants.CENTER);
+        adopt.setForeground(new Color(246, 148, 67));
+        adopt.setFont(new Font("Lava Kannada", Font.PLAIN, 40));
+
+        JLabel firstname = new JLabel("Firstname:");
+        firstname.setFont(new Font("Lava Kannada", Font.PLAIN, 15));
+
+        JTextField fnameInput = new JTextField();
+        firstname.setLabelFor(fnameInput);
+        fnameInput.setColumns(10);
+
+        JLabel lastname = new JLabel("Lastname:");
+        lastname.setFont(new Font("Lava Kannada", Font.PLAIN, 15));
+
+        JTextField lnameInput = new JTextField();
+        lastname.setLabelFor(lnameInput);
+        lnameInput.setColumns(10);
+
+        JLabel email = new JLabel("Email:");
+        email.setFont(new Font("Lava Kannada", Font.PLAIN, 15));
+
+        JTextField emailInput = new JTextField();
+        email.setLabelFor(emailInput);
+        emailInput.setColumns(10);
+
+        JLabel phone = new JLabel("Phone: ");
+        phone.setFont(new Font("Lava Kannada", Font.PLAIN, 15));
+
+        JTextField phoneInput = new JTextField();
+        phone.setLabelFor(phoneInput);
+        phoneInput.setColumns(10);
+
+        JLabel petID = new JLabel("Pet ID:");
+        petID.setFont(new Font("Lava Kannada", Font.PLAIN, 15));
+
+        JTextField petInput = new JTextField();
+        petID.setLabelFor(petInput);
+        petInput.setColumns(10);
+
+        JLabel statement = new JLabel("Statement: (up to 500 words)");
+        statement.setFont(new Font("Lava Kannada", Font.PLAIN, 15));
+
+        JTextArea statementInput = new JTextArea();
+
+        JButton submit = new JButton("Submit");
 
         JButton home = new JButton("Homepage");
+        GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
+        gl_mainPanel.setHorizontalGroup(
+                gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                                .addGap(215)
+                                                .addComponent(adopt))
+                                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                                .addGap(252)
+                                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                                                .addComponent(lastname, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(lnameInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                                                .addComponent(email, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(emailInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                                                .addComponent(phone, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(phoneInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                                                .addComponent(petID, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(petInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))
+                                                        .addComponent(statement, GroupLayout.PREFERRED_SIZE, 221, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(statementInput)
+                                                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                                                .addComponent(firstname)
+                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(home, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(fnameInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE)))))
+                                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                                .addGap(349)
+                                                .addComponent(submit)))
+                                .addContainerGap(215, Short.MAX_VALUE))
+        );
+        gl_mainPanel.setVerticalGroup(
+                gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                .addGap(11)
+                                .addComponent(adopt)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(firstname)
+                                        .addComponent(fnameInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lastname, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lnameInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(email, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(emailInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(phone, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(phoneInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(petID, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(petInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(statement, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(statementInput, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(submit)
+                                .addContainerGap(23, Short.MAX_VALUE))
+                        .addGroup(GroupLayout.Alignment.TRAILING, gl_mainPanel.createSequentialGroup()
+                                .addContainerGap(63, Short.MAX_VALUE)
+                                .addComponent(home)
+                                .addGap(420))
+        );
+        mainPanel.setLayout(gl_mainPanel);
+
         home.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -34,56 +159,5 @@ public class Adopt extends JFrame {
                 dispose();
             }
         });
-
-        mainPanel.add(adopt);
-        mainPanel.add(home);
-
-        //User input info for adoption
-        JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(5,1));
-        JLabel firstname = new JLabel("Your Firstname: ", JLabel.TRAILING);
-        JTextField fnameInput = new JTextField(30);
-        firstname.setLabelFor(fnameInput);
-
-        JLabel lastname = new JLabel("Your Lastname: ", JLabel.TRAILING);
-        JTextField lnameInput = new JTextField(30);
-        lastname.setLabelFor(lnameInput);
-
-        JLabel email = new JLabel("Email Address: ", JLabel.TRAILING);
-        JTextField emailInput = new JTextField(30);
-        email.setLabelFor(emailInput);
-
-        JLabel phone = new JLabel("Phone Number: ", JLabel.TRAILING);
-        JTextField phoneInput = new JTextField(30);
-        phone.setLabelFor(phoneInput);
-
-        JLabel petID = new JLabel("petID: ", JLabel.TRAILING);
-        JTextField petInput = new JTextField(30);
-
-        inputPanel.add(firstname);
-        inputPanel.add(fnameInput);
-        inputPanel.add(lastname);
-        inputPanel.add(lnameInput);
-        inputPanel.add(email);
-        inputPanel.add(emailInput);
-        inputPanel.add(phone);
-        inputPanel.add(phoneInput);
-        inputPanel.add(petID);
-        inputPanel.add(petInput);
-        mainPanel.add(inputPanel);
-
-
-        JPanel statementPanel = new JPanel();
-        JLabel statement = new JLabel("My Statement (up to 500 words): ", JLabel.TRAILING);
-        JTextArea statementInput = new JTextArea(20,40);
-
-        statementPanel.add(statement);
-        statementPanel.add(statementInput);
-        mainPanel.add(statementPanel);
-
-        JButton submit = new JButton("submit");
-        mainPanel.add(submit);
-
-        this.add(mainPanel);
     }
 }
