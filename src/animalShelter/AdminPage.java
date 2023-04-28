@@ -18,10 +18,10 @@ public class AdminPage extends JFrame {
 
         setContentPane(mainPanel);
 
-        JLabel lblNewLabel = new JLabel("Manage Information");
-        lblNewLabel.setForeground(Color.DARK_GRAY);
-        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel.setFont(new Font("Lava Kannada", Font.PLAIN, 40));
+        JLabel manageInformation = new JLabel("Manage Information");
+        manageInformation.setForeground(Color.DARK_GRAY);
+        manageInformation.setHorizontalAlignment(SwingConstants.CENTER);
+        manageInformation.setFont(new Font("Lava Kannada", Font.PLAIN, 40));
 
         JButton logOutButton = new JButton("Log Out");
         logOutButton.setForeground(Color.RED);
@@ -47,7 +47,7 @@ public class AdminPage extends JFrame {
                                 .addContainerGap(222, Short.MAX_VALUE)
                                 .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
                                         .addGroup(GroupLayout.Alignment.TRAILING, gl_mainPanel.createSequentialGroup()
-                                                .addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 422, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(manageInformation, GroupLayout.PREFERRED_SIZE, 422, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(146))
                                         .addGroup(GroupLayout.Alignment.TRAILING, gl_mainPanel.createSequentialGroup()
                                                 .addComponent(logOutButton, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
@@ -63,7 +63,7 @@ public class AdminPage extends JFrame {
                 gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(gl_mainPanel.createSequentialGroup()
                                 .addGap(17)
-                                .addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(manageInformation, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
                                 .addGap(33)
                                 .addComponent(addButton, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
                                 .addGap(34)

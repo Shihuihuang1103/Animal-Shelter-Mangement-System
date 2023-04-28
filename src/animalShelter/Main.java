@@ -109,7 +109,6 @@ public class Main extends JFrame{
 
     }
 
-
     public static void main(String[] args)  {
         // Create a new instance of the LoginGUI class
         Main page = new Main();

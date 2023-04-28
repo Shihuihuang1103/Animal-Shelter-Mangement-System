@@ -185,10 +185,16 @@ public class Adopt extends JFrame {
                 String lnameStr = lnameInput.getText();
                 String emailStr = emailInput.getText();
                 String phoneStr = phoneInput.getText();
-                int petIDInt = Integer.parseInt(petInput.getText());
+                int petIDInt;
+                if(petInput.getText().isEmpty()){
+                    petIDInt = 0;
+                } else {
+                    petIDInt = Integer.parseInt(petInput.getText());
+                }
                 String statementStr = statementInput.getText();
 
                 String sql = "INSERT INTO `adoption` (`email`, `fname`, `lname`, `petID`, `phoneNum`, `statement`) VALUES (?, ?, ?, ?, ?, ?)";
+                String checkPetID = "SELECT * FROM animal WHERE petID = ?";
                 try {
                     connection = db.getCon();
                     PreparedStatement pst = connection.prepareStatement(sql);
@@ -198,7 +204,23 @@ public class Adopt extends JFrame {
                     pst.setInt(4, petIDInt);
                     pst.setString(5, phoneStr);
                     pst.setString(6, statementStr);
-                    int rowsAffected = pst.executeUpdate();
+
+                    PreparedStatement pst2 = connection.prepareStatement(checkPetID);
+                    pst2.setInt(1, petIDInt);
+                    ResultSet rs = pst2.executeQuery();
+                    Boolean isValidPetID = rs.next();
+
+                    //if pet ID is not found in the animal table, do not execute query
+                    //if any field is empty, do not execute query
+                    int rowsAffected;
+                    if(!isValidPetID){
+                        rowsAffected = 0;
+                    } else if (fnameStr.isEmpty() || lnameStr.isEmpty() || emailStr.isEmpty() || phoneStr.isEmpty() || statementStr.isEmpty()){
+                        rowsAffected = 0;
+                    } else {
+                        rowsAffected = pst.executeUpdate();
+                    }
+
                     if(rowsAffected > 0){
                         messageLabel.setForeground(new Color(51, 176, 63));
                         messageLabel.setText("Your adoption form has been submitted successfully!");
@@ -208,10 +230,18 @@ public class Adopt extends JFrame {
                         petInput.setText("");
                         phoneInput.setText("");
                         statementInput.setText("");
-                    } else {
+                    } else if (!isValidPetID){
                         messageLabel.setForeground(Color.RED);
-                        messageLabel.setText("Something went wrong!");
+                        messageLabel.setText("Invalid pet ID!");
+                    } else if (fnameStr.isEmpty() || lnameStr.isEmpty() || emailStr.isEmpty() || phoneStr.isEmpty() || statementStr.isEmpty()){
+                        messageLabel.setForeground(Color.RED);
+                        messageLabel.setText("Please fill all the fields!");
                     }
+
+//                    else {
+//                        messageLabel.setForeground(Color.RED);
+//                        messageLabel.setText("Something went wrong!");
+//                    }
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
