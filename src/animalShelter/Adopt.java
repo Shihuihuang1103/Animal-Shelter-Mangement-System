@@ -90,24 +90,29 @@ public class Adopt extends JFrame {
                                                 .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
                                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                                 .addComponent(lastname, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18)
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(lnameInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                                 .addComponent(email, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18)
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(emailInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                                 .addComponent(phone, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18)
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(phoneInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))
                                                         .addComponent(statement, GroupLayout.PREFERRED_SIZE, 221, GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                                 .addComponent(firstname)
+                                                                .addGap(18)
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(fnameInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))
                                                         .addComponent(messageLabel, GroupLayout.PREFERRED_SIZE, 327, GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                                 .addComponent(petID, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18)
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(petInput, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE))))
                                         .addGroup(gl_mainPanel.createSequentialGroup()
@@ -237,11 +242,6 @@ public class Adopt extends JFrame {
                         messageLabel.setForeground(Color.RED);
                         messageLabel.setText("Please fill all the fields!");
                     }
-
-//                    else {
-//                        messageLabel.setForeground(Color.RED);
-//                        messageLabel.setText("Something went wrong!");
-//                    }
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
