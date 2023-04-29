@@ -76,6 +76,8 @@ public class AdminPage extends JFrame {
 
         removeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                new RemoveAnimal().setVisible(true);
+                dispose();
             }
         });
 

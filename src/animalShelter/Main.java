@@ -16,7 +16,6 @@ public class Main extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBackground(Color.white);
         setupPanels();
-        //setSize(1000,800);
         setTitle("Welcome!");
         setBounds(100, 100, 800, 550);
         setVisible(true);
@@ -29,7 +28,7 @@ public class Main extends JFrame{
 
         setContentPane(mainPanel);
 
-        JLabel welcome = new JLabel("Loving Paws Animal Shelter");
+        JLabel welcome = new JLabel("Lovely Paws Animal Shelter");
         welcome.setHorizontalAlignment(SwingConstants.CENTER);
         try {
             BufferedImage img = ImageIO.read(new File("src/logo/loving paw.png"));
