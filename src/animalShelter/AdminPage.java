@@ -73,6 +73,13 @@ public class AdminPage extends JFrame {
         );
         mainPanel.setLayout(gl_mainPanel);
 
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AddAnimal().setVisible(true);
+                dispose();
+            }
+        });
 
         removeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -81,6 +88,13 @@ public class AdminPage extends JFrame {
             }
         });
 
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new UpdateAnimal().setVisible(true);
+                dispose();
+            }
+        });
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -89,13 +103,7 @@ public class AdminPage extends JFrame {
             }
         });
 
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new AddAnimal().setVisible(true);
-                dispose();
-            }
-        });
+
     }
 
 
