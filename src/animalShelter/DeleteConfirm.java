@@ -1,6 +1,5 @@
 package animalShelter;
 
-import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -13,13 +12,23 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class DeleteConfirm extends JFrame{
-    public DeleteConfirm(){
+    private JDBC db = new JDBC();
+    private Connection connection;
+    private int petID;
+    private RemoveAnimal ra;
+
+    public DeleteConfirm(int petID, RemoveAnimal ra){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setupPanels();
         setBounds(100, 100, 380, 180);
         setVisible(true);
+        this.petID = petID;
+        this.ra = ra;
     }
 
     public void setupPanels(){
@@ -66,7 +75,29 @@ public class DeleteConfirm extends JFrame{
         yes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    connection = db.getCon();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                String sql = "DELETE FROM animal WHERE petID = ?";
+                try {
+                    PreparedStatement pst = connection.prepareStatement(sql);
+                    pst.setInt(1, petID);
+                    int rowsAffected = pst.executeUpdate();
+                    if (rowsAffected > 0){
+                        System.out.println("Deleted successful!");
+                        ra.messageLabel.setForeground(new Color(51, 176, 63));
+                        ra.messageLabel.setText("Deleted successful!");
+                    } else {
+                        System.out.println("Invalid pet ID!");
+                        ra.messageLabel.setForeground(Color.RED);
+                        ra.messageLabel.setText("Invalid pet ID!");
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                dispose();
             }
         });
 
@@ -77,7 +108,5 @@ public class DeleteConfirm extends JFrame{
             }
         });
     }
-    public static void main(String[] args)  {
-        new DeleteConfirm();
-    }
+
 }

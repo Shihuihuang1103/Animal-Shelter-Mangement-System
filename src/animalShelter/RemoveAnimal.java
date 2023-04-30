@@ -16,6 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 public class RemoveAnimal extends JFrame {
+    public JLabel messageLabel;
+    public RemoveAnimal ra = this;
+
     public RemoveAnimal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setupPanels();
@@ -46,6 +49,11 @@ public class RemoveAnimal extends JFrame {
         JButton delete = new JButton("Delete");
 
         JButton back = new JButton("Go Back");
+
+        messageLabel = new JLabel("");
+        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+
         GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
         gl_mainPanel.setHorizontalGroup(
                 gl_mainPanel.createParallelGroup(Alignment.LEADING)
@@ -95,7 +103,8 @@ public class RemoveAnimal extends JFrame {
         delete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new DeleteConfirm().setVisible(true);
+                new DeleteConfirm(Integer.parseInt(petidInput.getText()), ra).setVisible(true);
+                petidInput.setText("");
             }
         });
     }
