@@ -110,7 +110,11 @@ public class Login extends JFrame {
         home.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Main().setVisible(true);
+                try {
+                    new Main().setVisible(true);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
                 dispose();
             }
         });

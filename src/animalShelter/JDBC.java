@@ -19,14 +19,14 @@ public class JDBC {
             con.close();
         }
     }
-//    public static void main(String[] args){
-//        JDBC jdbc = new JDBC();
-//        try{
-//            jdbc.getCon();
-//            System.out.println("success!");
-//        }catch(Exception e){
-//            e.printStackTrace();
-//            System.out.println("failed!");
-//        }
-//    }
+    public static void main(String[] args){
+        JDBC jdbc = new JDBC();
+        try{
+            jdbc.getCon();
+            System.out.println("success!");
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("failed!");
+        }
+    }
 }

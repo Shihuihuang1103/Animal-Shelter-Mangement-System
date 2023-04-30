@@ -18,6 +18,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static animalShelter.Main.animalList;
+
 public class UpdateAnimal extends JFrame{
     private JDBC db = new JDBC();
     private Connection connection;
@@ -288,6 +290,16 @@ public class UpdateAnimal extends JFrame{
                            rowsAffected = pst.executeUpdate();
                        }
                        if (rowsAffected > 0) {
+                           //update animal list
+                           for(Animal i : animalList){
+                               if(i.getPetID() == petIDInt){
+                                   i.setName(petNameStr);
+                                   i.setBreed(breedStr);
+                                   i.setGender(genderStr);
+                                   i.setAge(ageInt);
+                                   i.setDescription(descriptionStr);
+                               }
+                           }
                            messageLabel.setForeground(new Color(51, 176, 63));
                            messageLabel.setText("Updated successfully!");
                            petidInput.setText("");

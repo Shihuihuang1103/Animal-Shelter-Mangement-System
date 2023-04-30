@@ -1,5 +1,7 @@
 package animalShelter;
 
+import com.mysql.cj.protocol.Resultset;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -9,16 +11,25 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Main extends JFrame{
+    private JDBC db = new JDBC();
+    private Connection connection;
+    public static ArrayList<Animal> animalList = new ArrayList<Animal>();
 
-    public Main() {
+    public Main() throws SQLException {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBackground(Color.white);
         setupPanels();
         setTitle("Welcome!");
         setBounds(100, 100, 800, 550);
         setVisible(true);
+        fillAnimalList();
     }
 
     public void setupPanels()  {
@@ -108,7 +119,22 @@ public class Main extends JFrame{
 
     }
 
-    public static void main(String[] args)  {
+    public void fillAnimalList() throws SQLException {
+        try {
+            connection = db.getCon();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        String sql = "SELECT * FROM animal";
+        Statement statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery(sql);
+        while(rs.next()){
+            Animal animal = new Animal(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6));
+            animalList.add(animal);
+        }
+    }
+
+    public static void main(String[] args) throws SQLException {
         // Create a new instance of the LoginGUI class
         Main page = new Main();
     }

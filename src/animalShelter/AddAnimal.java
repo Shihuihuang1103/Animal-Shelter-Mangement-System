@@ -26,6 +26,8 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JButton;
 
+import static animalShelter.Main.animalList;
+
 public class AddAnimal extends JFrame {
     private JDBC db = new JDBC();
     private Connection connection;
@@ -274,6 +276,7 @@ public class AddAnimal extends JFrame {
                             rowsAffected = pst2.executeUpdate();
                         }
                         if (rowsAffected > 0) {
+                            animalList.add(new Animal(petIDInt, petNameStr, breedStr, genderStr, ageInt, descriptionStr));
                             messageLabel.setForeground(new Color(51, 176, 63));
                             messageLabel.setText("New animal added successfully!");
                             petidInput.setText("");

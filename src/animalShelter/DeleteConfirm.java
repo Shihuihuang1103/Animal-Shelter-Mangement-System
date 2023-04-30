@@ -15,6 +15,9 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Iterator;
+
+import static animalShelter.Main.animalList;
 
 public class DeleteConfirm extends JFrame{
     private JDBC db = new JDBC();
@@ -86,6 +89,14 @@ public class DeleteConfirm extends JFrame{
                     pst.setInt(1, petID);
                     int rowsAffected = pst.executeUpdate();
                     if (rowsAffected > 0){
+                        //delete animal from animal list
+                        Iterator iterator = animalList.iterator();
+                        while(iterator.hasNext()){
+                            Animal a = (Animal) iterator.next();
+                            if(a.getPetID() == petID){
+                                iterator.remove();
+                            }
+                        }
                         System.out.println("Deleted successful!");
                         ra.messageLabel.setForeground(new Color(51, 176, 63));
                         ra.messageLabel.setText("Deleted successful!");
