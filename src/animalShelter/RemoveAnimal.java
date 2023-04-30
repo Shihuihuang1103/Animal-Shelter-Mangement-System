@@ -51,6 +51,7 @@ public class RemoveAnimal extends JFrame {
         JButton back = new JButton("Go Back");
 
         messageLabel = new JLabel("");
+        messageLabel.setFont(new Font("Lava Kannada", Font.PLAIN, 13));
         messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 
@@ -74,6 +75,11 @@ public class RemoveAnimal extends JFrame {
                                                         .addComponent(delete)
                                                         .addComponent(back, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE))
                                                 .addGap(349))))
+                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                .addGap(266)
+                                .addComponent(messageLabel, GroupLayout.PREFERRED_SIZE, 274, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(250, Short.MAX_VALUE))
+
         );
         gl_mainPanel.setVerticalGroup(
                 gl_mainPanel.createParallelGroup(Alignment.LEADING)
@@ -85,6 +91,8 @@ public class RemoveAnimal extends JFrame {
                                 .addPreferredGap(ComponentPlacement.RELATED)
                                 .addComponent(petidInput, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
                                 .addGap(32)
+                                .addComponent(messageLabel, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(ComponentPlacement.RELATED)
                                 .addComponent(delete)
                                 .addPreferredGap(ComponentPlacement.RELATED)
                                 .addComponent(back)
