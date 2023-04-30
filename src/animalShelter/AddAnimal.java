@@ -268,7 +268,7 @@ public class AddAnimal extends JFrame {
                         pst2.setInt(5, ageInt);
                         pst2.setString(6, descriptionStr);
                         int rowsAffected;
-                        if (petIDInt > 0 && ageInt > 0) {
+                        if (petIDInt < 0 || ageInt < 0) {
                             rowsAffected = 0;
                         } else {
                             rowsAffected = pst2.executeUpdate();

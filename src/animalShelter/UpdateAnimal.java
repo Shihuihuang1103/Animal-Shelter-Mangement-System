@@ -13,7 +13,14 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class UpdateAnimal extends JFrame{
+    private JDBC db = new JDBC();
+    private Connection connection;
     public UpdateAnimal(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setupPanels();
@@ -196,6 +203,36 @@ public class UpdateAnimal extends JFrame{
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                messageLabel.setText("");
+                try {
+                    connection = db.getCon();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                int petIDInt = Integer.parseInt(petidInput.getText());
+                String checkPetID = "SELECT * FROM animal WHERE petID = ?";
+                try {
+                    PreparedStatement pst1 = connection.prepareStatement(checkPetID);
+                    pst1.setInt(1, petIDInt);
+                    ResultSet rs = pst1.executeQuery();
+                    if (rs.next()){
+                        String nameOutput = rs.getString(2);
+                        petnameInput.setText(nameOutput);
+                        String breedOutput = rs.getString(3);
+                        breedInput.setText(breedOutput);
+                        String genderOutput = rs.getString(4);
+                        genderInput.setText(genderOutput);
+                        int ageOutput = rs.getInt(5);
+                        ageInput.setText(String.valueOf(ageOutput));
+                        String descriptionOutput = rs.getString(6);
+                        descriptionInput.setText(descriptionOutput);
+                    } else {
+                        messageLabel.setForeground(Color.RED);
+                        messageLabel.setText("Invalid pet ID!");
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
 
             }
         });
@@ -203,6 +240,73 @@ public class UpdateAnimal extends JFrame{
         update.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    connection = db.getCon();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                Boolean allFieldFilled = true;
+                int petIDInt;
+                if(petidInput.getText().isEmpty()){
+                    petIDInt = -1;
+                    allFieldFilled = false;
+                } else {
+                    petIDInt = Integer.parseInt(petidInput.getText());
+                }
+                String petNameStr = petnameInput.getText();
+                String breedStr = breedInput.getText();
+                String genderStr = genderInput.getText();
+                int ageInt;
+                if(ageInput.getText().isEmpty()){
+                    ageInt = -1;
+                    allFieldFilled = false;
+                } else {
+                    ageInt = Integer.parseInt(ageInput.getText());
+                }
+                String descriptionStr = descriptionInput.getText();
+
+                //check if all the fields are filled
+                if (petNameStr.isEmpty() || genderStr.isEmpty() || breedStr.isEmpty() || descriptionStr.isEmpty()){
+                    allFieldFilled = false;
+                }
+
+               if(allFieldFilled){
+                   String sql = "UPDATE animal SET name = ?, breed = ?, gender = ?, age = ?, description = ? WHERE petID = ?";
+                   try {
+                       PreparedStatement pst = connection.prepareStatement(sql);
+                       pst.setString(1, petNameStr);
+                       pst.setString(2, breedStr);
+                       pst.setString(3, genderStr);
+                       pst.setInt(4, ageInt);
+                       pst.setString(5, descriptionStr);
+                       pst.setInt(6, petIDInt);
+                       int rowsAffected;
+                       if (petIDInt < 0 || ageInt < 0) {
+                           rowsAffected = 0;
+                       } else {
+                           rowsAffected = pst.executeUpdate();
+                       }
+                       if (rowsAffected > 0) {
+                           messageLabel.setForeground(new Color(51, 176, 63));
+                           messageLabel.setText("Updated successfully!");
+                           petidInput.setText("");
+                           petnameInput.setText("");
+                           breedInput.setText("");
+                           genderInput.setText("");
+                           ageInput.setText("");
+                           descriptionInput.setText("");
+                       } else {
+                           messageLabel.setForeground(Color.RED);
+                           messageLabel.setText("Something went wrong...");
+                       }
+                   } catch (SQLException ex) {
+                       throw new RuntimeException(ex);
+                   }
+               } else {
+                   messageLabel.setForeground(Color.RED);
+                   messageLabel.setText("Please fill all the fields!");
+               }
 
             }
         });
