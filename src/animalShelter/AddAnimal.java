@@ -13,6 +13,10 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.SwingConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
@@ -23,6 +27,9 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JButton;
 
 public class AddAnimal extends JFrame {
+    private JDBC db = new JDBC();
+    private Connection connection;
+
     private JPanel mainPanel;
     private JTextField petidInput;
     private JTextField petnameInput;
@@ -199,6 +206,99 @@ public class AddAnimal extends JFrame {
         JTextArea descriptionInput = new JTextArea();
         scrollPane.setViewportView(descriptionInput);
         mainPanel.setLayout(gl_mainPanel);
+
+        submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    connection = db.getCon();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                Boolean allFieldFilled = true;
+                int petIDInt;
+                if(petidInput.getText().isEmpty()){
+                    petIDInt = -1;
+                    allFieldFilled = false;
+                } else {
+                    petIDInt = Integer.parseInt(petidInput.getText());
+                }
+                String petNameStr = petnameInput.getText();
+                String breedStr = breedInput.getText();
+                String genderStr = genderInput.getText();
+                int ageInt;
+                if(ageInput.getText().isEmpty()){
+                    ageInt = -1;
+                    allFieldFilled = false;
+                } else {
+                    ageInt = Integer.parseInt(ageInput.getText());
+                }
+                String descriptionStr = descriptionInput.getText();
+
+                //check if all the fields are filled
+                if (petNameStr.isEmpty() || genderStr.isEmpty() || breedStr.isEmpty() || descriptionStr.isEmpty()){
+                    allFieldFilled = false;
+                }
+
+                //check if petID already exists
+                Boolean repeatedID;
+                String checkPetID = "SELECT * FROM animal WHERE petID = ?";
+                try {
+                    PreparedStatement pst1 = connection.prepareStatement(checkPetID);
+                    pst1.setInt(1, petIDInt);
+                    ResultSet rs = pst1.executeQuery();
+                    if (rs.next()) {
+                        repeatedID = true;
+                    } else {
+                        repeatedID = false;
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                //if all the fields are filled and pet ID is available, execute sql
+                if(allFieldFilled && !repeatedID) {
+                    String sql = "INSERT INTO `animal` (`petID`, `name`, `breed`, `gender`, `age`, `description`) VALUES (?,?,?,?,?,?)";
+                    try {
+                        PreparedStatement pst2 = connection.prepareStatement(sql);
+                        pst2.setInt(1, petIDInt);
+                        pst2.setString(2, petNameStr);
+                        pst2.setString(3, breedStr);
+                        pst2.setString(4, genderStr);
+                        pst2.setInt(5, ageInt);
+                        pst2.setString(6, descriptionStr);
+                        int rowsAffected;
+                        if (petIDInt > 0 && ageInt > 0) {
+                            rowsAffected = 0;
+                        } else {
+                            rowsAffected = pst2.executeUpdate();
+                        }
+                        if (rowsAffected > 0) {
+                            messageLabel.setForeground(new Color(51, 176, 63));
+                            messageLabel.setText("New animal added successfully!");
+                            petidInput.setText("");
+                            petnameInput.setText("");
+                            breedInput.setText("");
+                            genderInput.setText("");
+                            ageInput.setText("");
+                            descriptionInput.setText("");
+                        } else {
+                            messageLabel.setForeground(Color.RED);
+                            messageLabel.setText("Something went wrong...");
+                        }
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else if (repeatedID) {
+                    messageLabel.setForeground(Color.RED);
+                    messageLabel.setText("Pet ID already in exists!");
+                } else {
+                    messageLabel.setForeground(Color.RED);
+                    messageLabel.setText("Please fill all the fields!");
+                }
+
+            }
+        });
 
 
         back.addActionListener(new ActionListener() {
