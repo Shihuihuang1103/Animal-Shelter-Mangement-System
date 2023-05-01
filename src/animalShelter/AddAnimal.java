@@ -207,6 +207,7 @@ public class AddAnimal extends JFrame {
 
         JTextArea descriptionInput = new JTextArea();
         scrollPane.setViewportView(descriptionInput);
+        descriptionInput.setLineWrap(true);
         mainPanel.setLayout(gl_mainPanel);
 
         submit.addActionListener(new ActionListener() {

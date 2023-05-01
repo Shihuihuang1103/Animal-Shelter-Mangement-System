@@ -192,6 +192,7 @@ public class UpdateAnimal extends JFrame{
 
         JTextArea descriptionInput = new JTextArea();
         scrollPane.setViewportView(descriptionInput);
+        descriptionInput.setLineWrap(true);
         mainPanel.setLayout(gl_mainPanel);
 
         cancel.addActionListener(new ActionListener() {

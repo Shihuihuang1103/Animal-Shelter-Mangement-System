@@ -1,7 +1,5 @@
 package animalShelter;
 
-import com.mysql.cj.protocol.Resultset;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,6 +14,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class Main extends JFrame{
     private JDBC db = new JDBC();
@@ -29,10 +33,10 @@ public class Main extends JFrame{
         setTitle("Welcome!");
         setBounds(100, 100, 800, 550);
         setVisible(true);
-        fillAnimalList();
+        //fillAnimalList();
     }
 
-    public void setupPanels()  {
+    public void setupPanels() throws SQLException {
         JPanel mainPanel = new JPanel();
         mainPanel.setBackground(new Color(255, 255, 255));
         mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -53,43 +57,90 @@ public class Main extends JFrame{
 
         JButton login = new JButton("Admin Login");
         login.setHorizontalAlignment(SwingConstants.LEFT);
-        login.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
 
         JButton appointment = new JButton("Make An Appointment");
 
         JButton adoption = new JButton("Start An Adoption");
         adoption.setHorizontalAlignment(SwingConstants.RIGHT);
+
+
+        JList animalnameList = new JList(animalList.toArray());
+        animalnameList.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        animalnameList.setToolTipText("");
+        animalnameList.setBackground(new Color(202, 232, 255));
+        animalnameList.setFont(new Font("Lava Kannada", Font.PLAIN, 13));
+        animalnameList.setModel(new AnimalListModel());
+        JTextArea animalinfoOutput = new JTextArea();
+        animalnameList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                try {
+                    fillAnimalList();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                int index = animalnameList.getSelectedIndex();
+                animalinfoOutput.setText("");
+                animalinfoOutput.append("Pet ID: " + animalList.get(index).getPetID() + "\n");
+                animalinfoOutput.append("Name: " + animalList.get(index).getName() + "\n");
+                animalinfoOutput.append("Breed: " + animalList.get(index).getBreed() + "\n");
+                animalinfoOutput.append("Gender: " + animalList.get(index).getGender() + "\n");
+                animalinfoOutput.append("Age: " + animalList.get(index).getAge() + "\n");
+                animalinfoOutput.append("Description: " + animalList.get(index).getDescription() + "\n");
+            }
+        });
+
+        animalnameList.setSelectedIndex(0);
+        animalnameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        JScrollPane animalInfo = new JScrollPane();
+        animalInfo.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        animalInfo.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
         gl_mainPanel.setHorizontalGroup(
-                gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
+                gl_mainPanel.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_mainPanel.createSequentialGroup()
-                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                 .addContainerGap()
                                                 .addComponent(welcome, GroupLayout.PREFERRED_SIZE, 766, GroupLayout.PREFERRED_SIZE))
                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                 .addGap(126)
-                                                .addComponent(login)
-                                                .addGap(28)
-                                                .addComponent(appointment)
-                                                .addGap(36)
-                                                .addComponent(adoption)))
+                                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
+                                                        .addGroup(Alignment.LEADING, gl_mainPanel.createSequentialGroup()
+                                                                .addPreferredGap(ComponentPlacement.RELATED)
+                                                                .addComponent(animalnameList, GroupLayout.PREFERRED_SIZE, 157, GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(48)
+                                                                .addComponent(animalInfo, GroupLayout.PREFERRED_SIZE, 328, GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(Alignment.LEADING, gl_mainPanel.createSequentialGroup()
+                                                                .addComponent(login)
+                                                                .addGap(55)
+                                                                .addComponent(appointment)
+                                                                .addGap(44)
+                                                                .addComponent(adoption)))))
                                 .addContainerGap(18, Short.MAX_VALUE))
         );
         gl_mainPanel.setVerticalGroup(
-                gl_mainPanel.createParallelGroup(GroupLayout.Alignment.LEADING)
+                gl_mainPanel.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_mainPanel.createSequentialGroup()
                                 .addComponent(welcome, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(gl_mainPanel.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(adoption)
+                                .addPreferredGap(ComponentPlacement.RELATED)
+                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(login)
-                                        .addComponent(appointment))
-                                .addContainerGap(372, Short.MAX_VALUE))
+                                        .addComponent(appointment)
+                                        .addComponent(adoption))
+                                .addPreferredGap(ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING, false)
+                                        .addComponent(animalInfo)
+                                        .addComponent(animalnameList, GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
+                                .addContainerGap(38, Short.MAX_VALUE))
         );
+
+
+        animalinfoOutput.setWrapStyleWord(true);
+        animalinfoOutput.setRows(10);
+        animalInfo.setViewportView(animalinfoOutput);
+        animalinfoOutput.setLineWrap(true);
         mainPanel.setLayout(gl_mainPanel);
 
 
@@ -116,7 +167,6 @@ public class Main extends JFrame{
                 dispose();
             }
         });
-
     }
 
     public void fillAnimalList() throws SQLException {
@@ -133,7 +183,9 @@ public class Main extends JFrame{
             animalList.add(animal);
         }
     }
+    public void showDetail(int index){
 
+    }
     public static void main(String[] args) throws SQLException {
         // Create a new instance of the LoginGUI class
         Main page = new Main();
