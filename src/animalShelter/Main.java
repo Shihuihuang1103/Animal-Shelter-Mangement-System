@@ -26,14 +26,16 @@ public class Main extends JFrame{
     private Connection connection;
     public static ArrayList<Animal> animalList = new ArrayList<Animal>();
 
+
     public Main() throws SQLException {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBackground(Color.white);
+        fillAnimalList();
         setupPanels();
         setTitle("Welcome!");
         setBounds(100, 100, 800, 550);
         setVisible(true);
-        //fillAnimalList();
+
     }
 
     public void setupPanels() throws SQLException {
@@ -74,11 +76,6 @@ public class Main extends JFrame{
         animalnameList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                try {
-                    fillAnimalList();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
                 int index = animalnameList.getSelectedIndex();
                 animalinfoOutput.setText("");
                 animalinfoOutput.append("Pet ID: " + animalList.get(index).getPetID() + "\n");
@@ -183,9 +180,7 @@ public class Main extends JFrame{
             animalList.add(animal);
         }
     }
-    public void showDetail(int index){
 
-    }
     public static void main(String[] args) throws SQLException {
         // Create a new instance of the LoginGUI class
         Main page = new Main();

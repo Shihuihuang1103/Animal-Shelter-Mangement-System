@@ -12,6 +12,7 @@ public class AnimalListModel extends AbstractListModel {
     private Connection connection;
     public static ArrayList<Animal> animalList = new ArrayList<Animal>();
     public AnimalListModel() throws SQLException {
+        animalList.clear();
         try {
             connection = db.getCon();
         } catch (Exception ex) {
