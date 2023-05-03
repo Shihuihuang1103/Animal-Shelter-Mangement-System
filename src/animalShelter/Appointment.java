@@ -14,12 +14,18 @@ import javax.swing.JTextField;
 import java.awt.Choice;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 public class Appointment extends JFrame {
+    private LocalDate currDate = LocalDate.now();
+    private JDBC db = new JDBC();
+    private Connection connection;
 
     public Appointment() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,6 +33,32 @@ public class Appointment extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 800, 550);
         setupPanels();
+    }
+
+    public ArrayList<AvailableTimeSlot> AvailableTimeSlotList () throws Exception {
+        ArrayList<AvailableTimeSlot> AvailableTimeSlotList = new ArrayList<>();
+        connection = db.getCon();
+        String sql = "SELECT * FROM appointment WHERE date = ? AND time = ?";
+        PreparedStatement pst = connection.prepareStatement(sql);
+
+        for(int i = 1; i <= 14; i++){
+            LocalDate date = currDate.plusDays(i);
+            Date sqlDate = Date.valueOf(date);
+            pst.setDate(1, sqlDate);
+            pst.setString(2, "AM");
+            //if there is result in db, then the date and time is not available
+            ResultSet rs = pst.executeQuery();
+            if(!rs.next()){
+                AvailableTimeSlotList.add(new AvailableTimeSlot(date, "AM"));
+            }
+            pst.setDate(1,sqlDate);
+            pst.setString(2, "PM");
+            rs = pst.executeQuery();
+            if(!rs.next()){
+                AvailableTimeSlotList.add(new AvailableTimeSlot(date, "PM"));
+            }
+        }
+        return AvailableTimeSlotList;
     }
 
     public void setupPanels()  {

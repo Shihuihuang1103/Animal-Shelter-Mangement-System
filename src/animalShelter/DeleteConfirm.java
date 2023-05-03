@@ -97,11 +97,9 @@ public class DeleteConfirm extends JFrame{
                                 iterator.remove();
                             }
                         }
-                        System.out.println("Deleted successful!");
                         ra.messageLabel.setForeground(new Color(51, 176, 63));
                         ra.messageLabel.setText("Deleted successful!");
                     } else {
-                        System.out.println("Invalid pet ID!");
                         ra.messageLabel.setForeground(Color.RED);
                         ra.messageLabel.setText("Invalid pet ID!");
                     }
