@@ -24,11 +24,10 @@ public class Appointment extends JFrame {
     private LocalDate currDate = LocalDate.now();
     private JDBC db = new JDBC();
     private Connection connection;
-
+    private JLabel messageLabel;
     public Appointment() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBackground(new Color(246, 246, 246));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 600, 450);
         setupPanels();
     }
@@ -99,21 +98,20 @@ public class Appointment extends JFrame {
         dateTime.setFont(new Font("Lava Kannada", Font.PLAIN, 15));
 
 
-        String[] timeSlot = new String[0];
+        JComboBox<AvailableTimeSlot> timeSelect = new JComboBox<>();
         try {
-            ArrayList<AvailableTimeSlot> timeSlotList = AvailableTimeSlotList();
-            timeSlot = new String[timeSlotList.size()];
-            for (int i = 0; i < timeSlotList.size(); i++) {
-                timeSlot[i] = timeSlotList.get(i).toString();
+            ArrayList<AvailableTimeSlot> timeSlotArrayList = AvailableTimeSlotList();
+            for(int i = 0; i < timeSlotArrayList.size(); i++){
+                timeSelect.addItem(timeSlotArrayList.get(i));
             }
-        } catch (Exception e) {
+        }catch(Exception e){
             e.printStackTrace();
         }
-        JComboBox timeSelect = new JComboBox(timeSlot);
+
 
         JButton submit = new JButton("Submit");
 
-        JLabel messageLabel = new JLabel("");
+        messageLabel = new JLabel("");
         messageLabel.setFont(new Font("Lava Kannada", Font.PLAIN, 13));
         messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
@@ -197,6 +195,9 @@ public class Appointment extends JFrame {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AvailableTimeSlot selectedTime = (AvailableTimeSlot) timeSelect.getSelectedItem();
+                LocalDate date = selectedTime.getDate();
+                String time = selectedTime.getTime();
 
             }
         });
