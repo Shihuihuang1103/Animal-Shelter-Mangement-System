@@ -48,7 +48,7 @@ public class UpdateAnimal extends JFrame{
         JTextField petidInput = new JTextField();
         petidInput.setColumns(10);
 
-        JButton cancel = new JButton("Cancel");
+        JButton back = new JButton("Go Back");
 
         JButton searchButton = new JButton("Search");
 
@@ -105,7 +105,7 @@ public class UpdateAnimal extends JFrame{
                                 .addContainerGap(316, Short.MAX_VALUE))
                         .addGroup(gl_mainPanel.createSequentialGroup()
                                 .addGap(320)
-                                .addComponent(cancel)
+                                .addComponent(back)
                                 .addPreferredGap(ComponentPlacement.RELATED)
                                 .addComponent(searchButton, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(292, Short.MAX_VALUE))
@@ -165,7 +165,7 @@ public class UpdateAnimal extends JFrame{
                                 .addComponent(petidInput, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                 .addGroup(gl_mainPanel.createParallelGroup(Alignment.BASELINE)
-                                        .addComponent(cancel)
+                                        .addComponent(back)
                                         .addComponent(searchButton))
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                 .addGroup(gl_mainPanel.createParallelGroup(Alignment.BASELINE)
@@ -195,7 +195,7 @@ public class UpdateAnimal extends JFrame{
         descriptionInput.setLineWrap(true);
         mainPanel.setLayout(gl_mainPanel);
 
-        cancel.addActionListener(new ActionListener() {
+        back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AdminPage().setVisible(true);
