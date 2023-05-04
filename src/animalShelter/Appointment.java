@@ -116,20 +116,20 @@ public class Appointment extends JFrame {
         messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
         gl_mainPanel.setHorizontalGroup(
-                gl_mainPanel.createParallelGroup(Alignment.LEADING)
+                gl_mainPanel.createParallelGroup(Alignment.TRAILING)
                         .addGroup(gl_mainPanel.createSequentialGroup()
                                 .addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                 .addGap(106)
                                                 .addComponent(appointment))
                                         .addGroup(gl_mainPanel.createSequentialGroup()
-                                                .addGap(68)
+                                                .addGap(90)
                                                 .addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
                                                         .addComponent(messageLabel, GroupLayout.PREFERRED_SIZE, 391, GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(gl_mainPanel.createSequentialGroup()
-                                                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
-                                                                        .addComponent(dateTime, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE)
-                                                                        .addGroup(Alignment.TRAILING, gl_mainPanel.createParallelGroup(Alignment.LEADING)
+                                                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
+                                                                        .addComponent(dateTime, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
+                                                                        .addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
                                                                                 .addComponent(firstname, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
                                                                                 .addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
                                                                                         .addComponent(email, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
@@ -141,11 +141,11 @@ public class Appointment extends JFrame {
                                                                         .addComponent(lnameInput)
                                                                         .addComponent(emailInput))))))
                                 .addContainerGap(80, Short.MAX_VALUE))
-                        .addGroup(Alignment.TRAILING, gl_mainPanel.createSequentialGroup()
+                        .addGroup(gl_mainPanel.createSequentialGroup()
                                 .addContainerGap(242, Short.MAX_VALUE)
                                 .addComponent(submit, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
                                 .addGap(237))
-                        .addGroup(Alignment.TRAILING, gl_mainPanel.createSequentialGroup()
+                        .addGroup(gl_mainPanel.createSequentialGroup()
                                 .addContainerGap(242, Short.MAX_VALUE)
                                 .addComponent(home)
                                 .addGap(237))
@@ -176,7 +176,7 @@ public class Appointment extends JFrame {
                                 .addComponent(messageLabel, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
                                 .addGap(18)
                                 .addComponent(submit)
-                                .addContainerGap(55, Short.MAX_VALUE))
+                                .addContainerGap(43, Short.MAX_VALUE))
         );
         mainPanel.setLayout(gl_mainPanel);
 
@@ -220,7 +220,7 @@ public class Appointment extends JFrame {
                         int rowsAffected = pst2.executeUpdate();
                         if(rowsAffected > 0){
                             messageLabel.setForeground(new Color(51, 176, 63));
-                            messageLabel.setText("Your appoinment is booked successfully!");
+                            messageLabel.setText("Your appointment is booked successfully!");
                             emailInput.setText("");
                             fnameInput.setText("");
                             lnameInput.setText("");
