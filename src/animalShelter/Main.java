@@ -153,7 +153,6 @@ public class Main extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Appointment().setVisible(true);
-                dispose();
             }
         });
 

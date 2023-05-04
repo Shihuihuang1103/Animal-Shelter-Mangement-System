@@ -21,9 +21,9 @@ public class AvailableTimeSlot {
 
     @Override
     public String toString() {
-        return "AvailableTimeSlot{" +
-                "date=" + date +
-                ", time='" + time + '\'' +
-                '}';
+        if(time == "AM")
+            return date + " " + "9:00 " + time;
+        else
+            return date + " " + "1:00 " + time;
     }
 }

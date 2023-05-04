@@ -1,5 +1,6 @@
 package animalShelter;
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,16 +12,13 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
-import java.awt.Choice;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 
 public class Appointment extends JFrame {
     private LocalDate currDate = LocalDate.now();
@@ -31,9 +29,10 @@ public class Appointment extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBackground(new Color(246, 246, 246));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 800, 550);
+        setBounds(100, 100, 600, 450);
         setupPanels();
     }
+
 
     public ArrayList<AvailableTimeSlot> AvailableTimeSlotList () throws Exception {
         ArrayList<AvailableTimeSlot> AvailableTimeSlotList = new ArrayList<>();
@@ -61,7 +60,8 @@ public class Appointment extends JFrame {
         return AvailableTimeSlotList;
     }
 
-    public void setupPanels()  {
+
+    public void setupPanels() {
 
         JPanel mainPanel = new JPanel();
         mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -95,18 +95,21 @@ public class Appointment extends JFrame {
         email.setLabelFor(emailInput);
         emailInput.setColumns(10);
 
-        JLabel date = new JLabel("Date: \n(YYYY-MM-DD)");
-        date.setFont(new Font("Lava Kannada", Font.PLAIN, 15));
+        JLabel dateTime = new JLabel("Please pick an available time:");
+        dateTime.setFont(new Font("Lava Kannada", Font.PLAIN, 15));
 
-        JTextField dateInput = new JTextField();
-        date.setLabelFor(dateInput);
-        dateInput.setColumns(10);
 
-        JLabel time = new JLabel("Time: ");
-        time.setFont(new Font("Lava Kannada", Font.PLAIN, 15));
-
-        JComboBox timeSelect = new JComboBox();
-        timeSelect.setModel(new DefaultComboBoxModel(new String[] {"A.M. (9:00 - 11:00)", "P.M. (1:00 - 3:00)"}));
+        String[] timeSlot = new String[0];
+        try {
+            ArrayList<AvailableTimeSlot> timeSlotList = AvailableTimeSlotList();
+            timeSlot = new String[timeSlotList.size()];
+            for (int i = 0; i < timeSlotList.size(); i++) {
+                timeSlot[i] = timeSlotList.get(i).toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JComboBox timeSelect = new JComboBox(timeSlot);
 
         JButton submit = new JButton("Submit");
 
@@ -119,32 +122,35 @@ public class Appointment extends JFrame {
                         .addGroup(gl_mainPanel.createSequentialGroup()
                                 .addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
                                         .addGroup(gl_mainPanel.createSequentialGroup()
-                                                .addGap(337)
-                                                .addComponent(home))
+                                                .addGap(106)
+                                                .addComponent(appointment))
                                         .addGroup(gl_mainPanel.createSequentialGroup()
-                                                .addGap(188)
-                                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
+                                                .addGap(68)
+                                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
+                                                        .addComponent(messageLabel, GroupLayout.PREFERRED_SIZE, 391, GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(gl_mainPanel.createSequentialGroup()
-                                                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
-                                                                        .addComponent(firstname, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(lastname, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(email, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(date)
-                                                                        .addComponent(time, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE))
-                                                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
+                                                                        .addComponent(dateTime, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE)
+                                                                        .addGroup(Alignment.TRAILING, gl_mainPanel.createParallelGroup(Alignment.LEADING)
+                                                                                .addComponent(firstname, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
+                                                                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
+                                                                                        .addComponent(email, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
+                                                                                        .addComponent(lastname, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE))))
+                                                                .addPreferredGap(ComponentPlacement.RELATED)
                                                                 .addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING, false)
-                                                                        .addComponent(lnameInput, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                                                                        .addComponent(dateInput, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                                                                        .addComponent(fnameInput, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                                                                        .addComponent(emailInput, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                                                                        .addComponent(timeSelect, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                                        .addComponent(appointment)
-                                                        .addComponent(messageLabel, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 391, GroupLayout.PREFERRED_SIZE))))
-                                .addContainerGap(198, Short.MAX_VALUE))
+                                                                        .addComponent(timeSelect, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addComponent(fnameInput, GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                                                                        .addComponent(lnameInput)
+                                                                        .addComponent(emailInput))))))
+                                .addContainerGap(80, Short.MAX_VALUE))
                         .addGroup(Alignment.TRAILING, gl_mainPanel.createSequentialGroup()
-                                .addContainerGap(341, Short.MAX_VALUE)
+                                .addContainerGap(242, Short.MAX_VALUE)
                                 .addComponent(submit, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
-                                .addGap(338))
+                                .addGap(237))
+                        .addGroup(Alignment.TRAILING, gl_mainPanel.createSequentialGroup()
+                                .addContainerGap(242, Short.MAX_VALUE)
+                                .addComponent(home)
+                                .addGap(237))
         );
         gl_mainPanel.setVerticalGroup(
                 gl_mainPanel.createParallelGroup(Alignment.LEADING)
@@ -156,8 +162,8 @@ public class Appointment extends JFrame {
                                 .addGroup(gl_mainPanel.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(firstname)
                                         .addComponent(fnameInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-                                .addGap(9)
-                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
+                                .addPreferredGap(ComponentPlacement.RELATED)
+                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(lastname, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(lnameInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
@@ -166,19 +172,16 @@ public class Appointment extends JFrame {
                                         .addComponent(emailInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                 .addGroup(gl_mainPanel.createParallelGroup(Alignment.BASELINE)
-                                        .addComponent(date, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(dateInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(ComponentPlacement.UNRELATED)
-                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.BASELINE)
-                                        .addComponent(time, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(dateTime, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(timeSelect, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                .addGap(18)
+                                .addGap(17)
                                 .addComponent(messageLabel, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(ComponentPlacement.RELATED)
+                                .addGap(18)
                                 .addComponent(submit)
-                                .addContainerGap(93, Short.MAX_VALUE))
+                                .addContainerGap(55, Short.MAX_VALUE))
         );
         mainPanel.setLayout(gl_mainPanel);
+
         home.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
