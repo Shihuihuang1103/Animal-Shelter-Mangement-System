@@ -195,10 +195,46 @@ public class Appointment extends JFrame {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String checkAvailability = "SELECT * FROM appointment WHERE date = ? AND time = ?";
+                String sql = "INSERT INTO `appointment` (`email`, `fname`, `lname`, `date`, `time`) VALUES (?, ?, ?, ?, ?)";
+                String emailStr = emailInput.getText();
+                String fnameStr = fnameInput.getText();
+                String lnameStr = lnameInput.getText();
                 AvailableTimeSlot selectedTime = (AvailableTimeSlot) timeSelect.getSelectedItem();
                 LocalDate date = selectedTime.getDate();
+                Date sqlDate = Date.valueOf(date);
                 String time = selectedTime.getTime();
-
+                try {
+                    connection = db.getCon();
+                    PreparedStatement pst1 = connection.prepareStatement(checkAvailability);
+                    pst1.setDate(1, sqlDate);
+                    pst1.setString(2, time);
+                    PreparedStatement pst2 = connection.prepareStatement(sql);
+                    pst2.setString(1, emailStr);
+                    pst2.setString(2, fnameStr);
+                    pst2.setString(3, lnameStr);
+                    pst2.setDate(4, sqlDate);
+                    pst2.setString(5, time);
+                    ResultSet rs = pst1.executeQuery();
+                    if(!rs.next()){
+                        int rowsAffected = pst2.executeUpdate();
+                        if(rowsAffected > 0){
+                            messageLabel.setForeground(new Color(51, 176, 63));
+                            messageLabel.setText("Your appoinment is booked successfully!");
+                            emailInput.setText("");
+                            fnameInput.setText("");
+                            lnameInput.setText("");
+                        } else {
+                            messageLabel.setForeground(Color.RED);
+                            messageLabel.setText("Something went wrong!");
+                        }
+                    } else {
+                        messageLabel.setForeground(Color.RED);
+                        messageLabel.setText("The time you selected is no longer available!");
+                    }
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }
