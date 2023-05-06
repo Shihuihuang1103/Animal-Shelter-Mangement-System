@@ -93,6 +93,12 @@ public class Main extends JFrame{
         JScrollPane animalInfo = new JScrollPane();
         animalInfo.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         animalInfo.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        JButton liveChat = new JButton("Live Customer Service");
+        liveChat.setForeground(new Color(81, 126, 204));
+        liveChat.setBackground(new Color(81, 126, 204));
+
+
         GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
         gl_mainPanel.setHorizontalGroup(
                 gl_mainPanel.createParallelGroup(Alignment.LEADING)
@@ -116,6 +122,10 @@ public class Main extends JFrame{
                                                                 .addGap(44)
                                                                 .addComponent(adoption)))))
                                 .addContainerGap(18, Short.MAX_VALUE))
+                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                .addContainerGap(637, Short.MAX_VALUE)
+                                .addComponent(liveChat)
+                                .addGap(36))
         );
         gl_mainPanel.setVerticalGroup(
                 gl_mainPanel.createParallelGroup(Alignment.LEADING)
@@ -130,7 +140,9 @@ public class Main extends JFrame{
                                 .addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING, false)
                                         .addComponent(animalInfo)
                                         .addComponent(animalnameList, GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
-                                .addContainerGap(38, Short.MAX_VALUE))
+                                .addGap(27)
+                                .addComponent(liveChat)
+                                .addGap(477))
         );
 
 
@@ -161,6 +173,13 @@ public class Main extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 new Adopt().setVisible(true);
                 dispose();
+            }
+        });
+
+        liveChat.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Server();
             }
         });
     }
