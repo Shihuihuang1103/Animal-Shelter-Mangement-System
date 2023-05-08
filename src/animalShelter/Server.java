@@ -112,7 +112,7 @@ public class Server extends JFrame implements Runnable{
                     fromClient = new DataInputStream(socket.getInputStream());
                     String clientMessage = fromClient.readUTF();
                     serverDisplay.append("Customer: " + clientMessage + '\n');
-                    toClient = new DataOutputStream(socket.getOutputStream());
+
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -127,6 +127,7 @@ public class Server extends JFrame implements Runnable{
             while(true){
                 socket = ss.accept();
                 serverDisplay.append("One customer has connected. " + '\n');
+                toClient = new DataOutputStream(socket.getOutputStream());
                 handleClient client = new handleClient(socket);
                 client.start();
             }
