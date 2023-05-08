@@ -31,7 +31,7 @@ public class Client extends JFrame implements Runnable{
     private JTextArea clientDisplay;
     private DataOutputStream toServer;
     private DataInputStream fromServer;
-    private static String chatRecord = "";
+    private String chatRecord = "";
 
     public Client() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

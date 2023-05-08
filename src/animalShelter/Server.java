@@ -24,7 +24,7 @@ public class Server extends JFrame implements Runnable{
     private JPanel mainPanel;
     private JTextField serverChat;
     private JTextArea serverDisplay;
-    private static String chatRecord = "";
+    private String chatRecord = "";
 
     private Socket socket;
     private DataInputStream fromClient;
