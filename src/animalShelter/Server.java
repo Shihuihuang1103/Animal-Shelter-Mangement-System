@@ -24,6 +24,7 @@ public class Server extends JFrame implements Runnable{
     private JPanel mainPanel;
     private JTextField serverChat;
     private JTextArea serverDisplay;
+    private static String chatRecord = "";
 
     private Socket socket;
     private DataInputStream fromClient;
@@ -80,6 +81,7 @@ public class Server extends JFrame implements Runnable{
 
         serverDisplay = new JTextArea();
         serverDisplay.setLineWrap(true);
+        serverDisplay.setEditable(false);
         scrollPane.setViewportView(serverDisplay);
         mainPanel.setLayout(gl_mainPanel);
 
@@ -89,7 +91,8 @@ public class Server extends JFrame implements Runnable{
                 try {
                     String serverMessage = serverChat.getText();
                     toClient.writeUTF(serverMessage);
-                    serverDisplay.append("You: " + serverMessage + '\n');
+                    chatRecord += "You: " + serverMessage + '\n';
+                    serverDisplay.setText(chatRecord);
                     serverChat.setText("");
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -109,10 +112,9 @@ public class Server extends JFrame implements Runnable{
         public void run(){
             while(true){
                 try{
-                    fromClient = new DataInputStream(socket.getInputStream());
                     String clientMessage = fromClient.readUTF();
-                    serverDisplay.append("Customer: " + clientMessage + '\n');
-
+                    chatRecord += "Customer: " + clientMessage + '\n';
+                    serverDisplay.setText(chatRecord);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -123,11 +125,17 @@ public class Server extends JFrame implements Runnable{
     public void run() {
         try{
             ServerSocket ss = new ServerSocket(9898);
-            serverDisplay.append("Chat server started. " + '\n');
+            chatRecord += "Chat server started. " + '\n';
+            serverDisplay.setText(chatRecord);
             while(true){
                 socket = ss.accept();
-                serverDisplay.append("One customer has connected. " + '\n');
+                chatRecord += "One customer has connected. " + '\n';
+                serverDisplay.setText(chatRecord);
+                fromClient = new DataInputStream(socket.getInputStream());
                 toClient = new DataOutputStream(socket.getOutputStream());
+                String clientName = fromClient.readUTF();
+                chatRecord += "Customer name: " + clientName + '\n';
+                serverDisplay.setText(chatRecord);
                 handleClient client = new handleClient(socket);
                 client.start();
             }
@@ -135,7 +143,7 @@ public class Server extends JFrame implements Runnable{
         } catch (Exception e){
             System.out.println(e);
         }
-
     }
+
 }
 

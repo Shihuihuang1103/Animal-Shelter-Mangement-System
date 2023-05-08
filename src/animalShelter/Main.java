@@ -193,8 +193,14 @@ public class Main extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 Server server = new Server();
                 server.setVisible(true);
-                Thread thread = new Thread(server);
-                thread.start();
+                Thread serverThread = new Thread(server);
+                serverThread.start();
+
+                Client client = new Client();
+                client.setVisible(true);
+                Thread clientThread = new Thread(client);
+                clientThread.start();
+
             }
         });
     }
