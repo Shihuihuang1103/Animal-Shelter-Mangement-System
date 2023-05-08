@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.SoftBevelBorder;
@@ -64,8 +66,13 @@ public class Main extends JFrame{
         JButton adoption = new JButton("Start An Adoption");
         adoption.setHorizontalAlignment(SwingConstants.RIGHT);
 
-
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         JList animalnameList = new JList(animalList.toArray());
+
+
+
         animalnameList.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
         animalnameList.setToolTipText("");
         animalnameList.setBackground(new Color(202, 232, 255));
@@ -89,6 +96,8 @@ public class Main extends JFrame{
         animalnameList.setSelectedIndex(0);
         animalnameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
+
+
         JScrollPane animalInfo = new JScrollPane();
         animalInfo.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         animalInfo.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -98,9 +107,10 @@ public class Main extends JFrame{
         liveChat.setBackground(new Color(81, 126, 204));
 
 
+
         GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
         gl_mainPanel.setHorizontalGroup(
-                gl_mainPanel.createParallelGroup(Alignment.LEADING)
+                gl_mainPanel.createParallelGroup(Alignment.TRAILING)
                         .addGroup(gl_mainPanel.createSequentialGroup()
                                 .addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
                                         .addGroup(gl_mainPanel.createSequentialGroup()
@@ -108,23 +118,22 @@ public class Main extends JFrame{
                                                 .addComponent(welcome, GroupLayout.PREFERRED_SIZE, 766, GroupLayout.PREFERRED_SIZE))
                                         .addGroup(gl_mainPanel.createSequentialGroup()
                                                 .addGap(126)
-                                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
-                                                        .addGroup(Alignment.LEADING, gl_mainPanel.createSequentialGroup()
-                                                                .addPreferredGap(ComponentPlacement.RELATED)
-                                                                .addComponent(animalnameList, GroupLayout.PREFERRED_SIZE, 157, GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(48)
-                                                                .addComponent(animalInfo, GroupLayout.PREFERRED_SIZE, 328, GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(Alignment.LEADING, gl_mainPanel.createSequentialGroup()
+                                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
+                                                        .addGroup(gl_mainPanel.createSequentialGroup()
                                                                 .addComponent(login)
                                                                 .addGap(55)
                                                                 .addComponent(appointment)
                                                                 .addGap(44)
-                                                                .addComponent(adoption)))))
-                                .addContainerGap(18, Short.MAX_VALUE))
-                        .addGroup(gl_mainPanel.createSequentialGroup()
-                                .addContainerGap(637, Short.MAX_VALUE)
-                                .addComponent(liveChat)
-                                .addGap(36))
+                                                                .addComponent(adoption))
+                                                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                                                .addGap(26)
+                                                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
+                                                                        .addComponent(liveChat)
+                                                                        .addGroup(Alignment.LEADING, gl_mainPanel.createSequentialGroup()
+                                                                                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(62)
+                                                                                .addComponent(animalInfo, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)))))))
+                                .addGap(18))
         );
         gl_mainPanel.setVerticalGroup(
                 gl_mainPanel.createParallelGroup(Alignment.LEADING)
@@ -135,19 +144,23 @@ public class Main extends JFrame{
                                         .addComponent(login)
                                         .addComponent(appointment)
                                         .addComponent(adoption))
-                                .addPreferredGap(ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING, false)
-                                        .addComponent(animalInfo)
-                                        .addComponent(animalnameList, GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
-                                .addGap(27)
-                                .addComponent(liveChat)
-                                .addGap(477))
+                                .addGap(32)
+                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
+                                        .addGroup(gl_mainPanel.createSequentialGroup()
+                                                .addComponent(animalInfo, GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                                                .addGap(18)
+                                                .addComponent(liveChat)
+                                                .addGap(33))
+                                        .addGroup(Alignment.LEADING, gl_mainPanel.createSequentialGroup()
+                                                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 260, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(80))))
         );
 
 
         animalinfoOutput.setWrapStyleWord(true);
         animalinfoOutput.setRows(10);
         animalInfo.setViewportView(animalinfoOutput);
+        scrollPane.setViewportView(animalnameList);
         animalinfoOutput.setLineWrap(true);
         mainPanel.setLayout(gl_mainPanel);
 
