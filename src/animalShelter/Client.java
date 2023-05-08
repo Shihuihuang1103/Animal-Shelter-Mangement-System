@@ -1,5 +1,7 @@
 package animalShelter;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -13,13 +15,22 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.net.Socket;
+import java.util.Scanner;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-public class Client extends JFrame {
+public class Client extends JFrame implements Runnable{
 
     private JPanel mainPanel;
     private JTextField nameInput;
     private JTextField clientChat;
+    private Socket socket = null;
+    private JTextArea clientDisplay;
+    private DataOutputStream toServer;
+    private DataInputStream fromServer;
 
     public Client() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,14 +101,73 @@ public class Client extends JFrame {
                                         .addComponent(send))
                                 .addContainerGap(15, Short.MAX_VALUE))
         );
-
-        JTextArea clientDisplay = new JTextArea();
+        clientDisplay = new JTextArea();
         clientDisplay.setLineWrap(true);
         scrollPane.setViewportView(clientDisplay);
         mainPanel.setLayout(gl_mainPanel);
-    }
+
+
+        connect.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = nameInput.getText();
+                if (name.length() > 0) {
+                    clientDisplay.append("Welcome " + name + "!" + "\n" + "Our customer service will be ready to help you soon!"+"\n");
+                }
+                try{
+                    socket = new Socket("localhost", 9898);
+
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                    clientDisplay.append("Error connecting to server"+"\n");
+                }
+            }
+        });
+
+        ActionListener sendAction = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String serverMessage = clientChat.getText();
+                    toServer.writeUTF(serverMessage);
+                    clientDisplay.append("You: " + serverMessage + '\n');
+                    clientChat.setText("");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        };
+
+        send.addActionListener(sendAction);
+        clientChat.addActionListener(sendAction);
+  }
 
     public static void main(String[] args){
-        new Client();
+        Client client = new Client();
+        client.run();
+    }
+
+    @Override
+    public void run() {
+        while(true) {
+            if (socket == null) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                continue;
+            }
+            while (true) {
+                try {
+                    fromServer = new DataInputStream(socket.getInputStream());
+                    toServer = new DataOutputStream(socket.getOutputStream());
+                    String serverMessage = fromServer.readUTF();
+                    clientDisplay.append("LovelyPaws: " + serverMessage + "\n");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

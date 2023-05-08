@@ -35,7 +35,6 @@ public class Main extends JFrame{
         setTitle("Welcome!");
         setBounds(100, 100, 800, 550);
         setVisible(true);
-
     }
 
     public void setupPanels() throws SQLException {
@@ -179,7 +178,10 @@ public class Main extends JFrame{
         liveChat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Server();
+                Server server = new Server();
+                server.setVisible(true);
+                Thread thread = new Thread(server);
+                thread.start();
             }
         });
     }
