@@ -1,7 +1,6 @@
 package animalShelter;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -9,15 +8,11 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.GroupLayout;
+import java.util.HashMap;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class Server extends JFrame implements Runnable{
 
@@ -25,6 +20,10 @@ public class Server extends JFrame implements Runnable{
     private JTextField serverChat;
     private JTextArea serverDisplay;
     private String chatRecord = "";
+    private int clientNo = 0;
+    private HashMap<Integer, Socket> clientMap;
+    private DefaultListModel<Integer> listModel = new DefaultListModel<Integer>();
+
 
     private Socket socket;
     private DataInputStream fromClient;
@@ -52,6 +51,28 @@ public class Server extends JFrame implements Runnable{
         serverChat.setColumns(10);
 
         JButton send = new JButton("Send");
+
+        //add JList to display connected clients
+        for (Integer clientNum : clientMap.keySet()) {
+            listModel.addElement(clientNum);
+        }
+        JList<Integer> clientList = new JList<Integer>(listModel);
+
+        //add ListSelectionListener to JList, so that the server can select a client to chat with
+        clientList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int selectedClientNum = clientList.getSelectedValue();
+                Socket selectedClientSocket = clientMap.get(selectedClientNum);
+                try {
+                    fromClient = new DataInputStream(selectedClientSocket.getInputStream());
+                    toClient = new DataOutputStream(selectedClientSocket.getOutputStream());
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+        });
+
         GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
         gl_mainPanel.setHorizontalGroup(
                 gl_mainPanel.createParallelGroup(Alignment.LEADING)
@@ -103,10 +124,15 @@ public class Server extends JFrame implements Runnable{
         serverChat.addActionListener(sendAction);
     }
 
-    public class handleClient extends Thread{
+    public class HandleClient extends Thread{
         private Socket socket;
-        public handleClient(Socket socket){
+        private int clientNum;
+        HashMap<Integer, Socket> clientMap;
+
+        public HandleClient(Socket socket, int clientNum, HashMap<Integer, Socket> clients){
             this.socket = socket;
+            this.clientNum = clientNum;
+            this.clientMap = clients;
         }
         @Override
         public void run(){
@@ -123,6 +149,7 @@ public class Server extends JFrame implements Runnable{
     }
     @Override
     public void run() {
+        clientMap = new HashMap<>();
         try{
             ServerSocket ss = new ServerSocket(9898);
             chatRecord += "Chat server started. " + '\n';
@@ -136,7 +163,11 @@ public class Server extends JFrame implements Runnable{
                 String clientName = fromClient.readUTF();
                 chatRecord += "Customer name: " + clientName + '\n';
                 serverDisplay.setText(chatRecord);
-                handleClient client = new handleClient(socket);
+                clientNo++;
+                //add new client to the clientMap and JList
+                clientMap.put(clientNo, socket);
+                listModel.addElement(clientNo);
+                HandleClient client = new HandleClient(socket, clientNo, clientMap);
                 client.start();
             }
 

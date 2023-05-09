@@ -34,7 +34,7 @@ public class Client extends JFrame implements Runnable{
     private String chatRecord = "";
 
     public Client() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Welcome!");
         setBounds(100, 100, 480, 350);
         setupPanels();
