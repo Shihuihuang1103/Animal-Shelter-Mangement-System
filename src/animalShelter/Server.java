@@ -72,34 +72,40 @@ public class Server extends JFrame implements Runnable{
                 }
             }
         });
-
+        JScrollPane listScorllPane = new JScrollPane();
+        listScorllPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        listScorllPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
         gl_mainPanel.setHorizontalGroup(
                 gl_mainPanel.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_mainPanel.createSequentialGroup()
+                                .addGap(15)
+                                .addComponent(listScorllPane, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
+                                .addGap(35)
                                 .addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
                                         .addGroup(gl_mainPanel.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addComponent(serverChat, GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
-                                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                                .addPreferredGap(ComponentPlacement.RELATED)
+                                                .addComponent(serverChat, GroupLayout.PREFERRED_SIZE, 181, GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(ComponentPlacement.RELATED)
                                                 .addComponent(send))
-                                        .addGroup(gl_mainPanel.createSequentialGroup()
-                                                .addGap(14)
-                                                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 440, GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap())
+                                        .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 249, GroupLayout.PREFERRED_SIZE))
+                                .addGap(26))
         );
         gl_mainPanel.setVerticalGroup(
                 gl_mainPanel.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_mainPanel.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 237, GroupLayout.PREFERRED_SIZE)
-                                .addGap(18)
-                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.BASELINE)
-                                        .addComponent(serverChat, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(send))
+                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING, false)
+                                        .addComponent(listScorllPane, Alignment.LEADING)
+                                        .addGroup(Alignment.LEADING, gl_mainPanel.createSequentialGroup()
+                                                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 237, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18)
+                                                .addGroup(gl_mainPanel.createParallelGroup(Alignment.BASELINE)
+                                                        .addComponent(serverChat, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(send))))
                                 .addContainerGap(16, Short.MAX_VALUE))
         );
-
+        listScorllPane.setViewportView(clientList);
         serverDisplay = new JTextArea();
         serverDisplay.setLineWrap(true);
         serverDisplay.setEditable(false);
