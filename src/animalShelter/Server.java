@@ -148,14 +148,14 @@ public class Server extends JFrame implements Runnable{
     public class HandleClient extends Thread{
         private Socket socket;
         private int clientNum;
-        HashMap<Integer, Socket> clientMap;
-        public HandleClient(Socket socket, int clientNum, HashMap<Integer, Socket> clients){
+
+        public HandleClient(Socket socket, int clientNum){
             this.socket = socket;
             this.clientNum = clientNum;
-            this.clientMap = clients;
         }
         @Override
         public void run() {
+            //initialize chat record for this client with name and connection message
             StringBuilder record = new StringBuilder();
             chatRecords.put(clientNum, record);
             record.append("One customer has connected. " + '\n');
@@ -170,6 +170,15 @@ public class Server extends JFrame implements Runnable{
             while(true) {
                 try {
                     String clientMessage = fromClient.readLine();
+                    if (clientMessage != null) {
+                        // check if the message is "DISCONNECT"
+                        if (clientMessage.equals("DISCONNECT")) {
+                            clientMap.remove(clientNum);
+                            listModel.removeElement(clientNum);
+                            socket.close();
+                            break;
+                        }
+                    }
                     synchronized (chatRecords) {
                         record = chatRecords.get(clientNum);
                         record.append("Customer " + clientNum + ": " + clientMessage).append("\n");
@@ -198,7 +207,7 @@ public class Server extends JFrame implements Runnable{
                 //add new client into the clientMap and JList
                 clientMap.put(clientNo, clientSocket);
                 listModel.addElement(clientNo);
-                HandleClient client = new HandleClient(clientSocket, clientNo, clientMap);
+                HandleClient client = new HandleClient(clientSocket, clientNo);
                 client.start();
             }
         } catch (Exception e){

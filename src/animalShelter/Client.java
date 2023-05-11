@@ -17,6 +17,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -64,6 +66,48 @@ public class Client extends JFrame implements Runnable{
         clientChat.setColumns(10);
 
         JButton send = new JButton("Send");
+        this.addWindowListener(new WindowListener(){
+            @Override
+            public void windowOpened(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // send "DISCONNECT" message to the server
+                toServer.println("DISCONNECT");
+                try {
+                    socket.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+
+            }
+        });
         GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
         gl_mainPanel.setHorizontalGroup(
                 gl_mainPanel.createParallelGroup(Alignment.LEADING)
