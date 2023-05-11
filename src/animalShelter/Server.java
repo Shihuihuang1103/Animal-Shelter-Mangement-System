@@ -10,6 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.ListSelectionEvent;
@@ -22,7 +23,7 @@ public class Server extends JFrame implements Runnable{
     private JTextArea serverDisplay;
     private int clientNo = 0;
     private HashMap<Integer, Socket> clientMap;
-    private HashMap<Integer, StringBuilder> chatRecords = new HashMap<>();
+    private ConcurrentHashMap<Integer, StringBuilder> chatRecords = new ConcurrentHashMap<>();
     private DefaultListModel<Integer> listModel = new DefaultListModel<Integer>();
     private JList<Integer> clientList;
     private Socket clientSocket;
@@ -169,6 +170,8 @@ public class Server extends JFrame implements Runnable{
             //keep reading message from client and setting chat record
             while(true) {
                 try {
+                    fromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    //toClient = new PrintWriter(socket.getOutputStream(), true);
                     String clientMessage = fromClient.readLine();
                     if (clientMessage != null) {
                         // check if the message is "DISCONNECT"
@@ -186,6 +189,8 @@ public class Server extends JFrame implements Runnable{
                     System.out.println("server: " + clientMessage);
                     serverDisplay.setText(record.toString());
                     //System.out.println(clientMessage);
+                    //fromClient.close();
+                    //toClient.close();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -207,8 +212,9 @@ public class Server extends JFrame implements Runnable{
                 //add new client into the clientMap and JList
                 clientMap.put(clientNo, clientSocket);
                 listModel.addElement(clientNo);
-                HandleClient client = new HandleClient(clientSocket, clientNo);
-                client.start();
+                new Thread(new HandleClient(clientSocket, clientNo)).start();
+//                HandleClient client = new HandleClient(clientSocket, clientNo);
+//                client.start();
             }
         } catch (Exception e){
             System.out.println(e);
