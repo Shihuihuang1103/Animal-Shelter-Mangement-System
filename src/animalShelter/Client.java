@@ -29,8 +29,8 @@ public class Client extends JFrame implements Runnable{
     private JTextField clientChat;
     private Socket socket = null;
     private JTextArea clientDisplay;
-    private DataOutputStream toServer;
-    private DataInputStream fromServer;
+    private PrintWriter toServer;
+    private BufferedReader fromServer;
     private String chatRecord = "";
 
     public Client() {
@@ -122,9 +122,9 @@ public class Client extends JFrame implements Runnable{
                 }
                 try{
                     socket = new Socket("localhost", 9898);
-                    fromServer = new DataInputStream(socket.getInputStream());
-                    toServer = new DataOutputStream(socket.getOutputStream());
-                    toServer.writeUTF(name);
+                    fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    toServer = new PrintWriter(socket.getOutputStream(), true);
+                    toServer.println(name);
                 } catch (Exception ex) {
                     System.out.println(ex);
                     chatRecord+= "Error connecting to server"+"\n";
@@ -136,14 +136,13 @@ public class Client extends JFrame implements Runnable{
         ActionListener sendAction = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
+                if(!clientChat.getText().isEmpty() && clientChat.getText()!= " "){
                     String serverMessage = clientChat.getText();
-                    toServer.writeUTF(serverMessage);
+                    toServer.println(serverMessage);
                     chatRecord += "You: " + serverMessage + "\n";
+                    System.out.println("client: " + serverMessage);
                     clientDisplay.setText(chatRecord);
                     clientChat.setText("");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
                 }
             }
         };
@@ -170,7 +169,7 @@ public class Client extends JFrame implements Runnable{
             }
             while (true) {
                 try {
-                    String serverMessage = fromServer.readUTF();
+                    String serverMessage = fromServer.readLine();
                     chatRecord += "LovelyPaws: " + serverMessage + "\n";
                     clientDisplay.setText(chatRecord);
                 } catch (Exception e) {

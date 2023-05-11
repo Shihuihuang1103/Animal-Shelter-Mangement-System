@@ -27,14 +27,14 @@ public class Server extends JFrame implements Runnable{
     private JList<Integer> clientList;
     private Socket clientSocket;
 
-    private DataInputStream fromClient;
-    private DataOutputStream toClient;
-  public Server(){
-      setTitle("Lovely Paws Customer Service");
-      setBounds(100, 100, 480, 350);
-      setupPanels();
-      setVisible(true);
-  }
+    private BufferedReader fromClient;
+    private PrintWriter toClient;
+    public Server(){
+        setTitle("Lovely Paws Customer Service");
+        setBounds(100, 100, 480, 350);
+        setupPanels();
+        setVisible(true);
+    }
 
     public void setupPanels(){
         mainPanel = new JPanel();
@@ -68,8 +68,8 @@ public class Server extends JFrame implements Runnable{
                 Socket selectedClientSocket = clientMap.get(selectedClientNum);
                 StringBuilder selectedClientRecord = chatRecords.get(selectedClientNum);
                 try {
-                    fromClient = new DataInputStream(selectedClientSocket.getInputStream());
-                    toClient = new DataOutputStream(selectedClientSocket.getOutputStream());
+                    fromClient = new BufferedReader(new InputStreamReader(selectedClientSocket.getInputStream()));
+                    toClient = new PrintWriter(selectedClientSocket.getOutputStream(), true);
                     if (selectedClientRecord != null) {
                         serverDisplay.setText(selectedClientRecord.toString());
                     } else {
@@ -78,7 +78,7 @@ public class Server extends JFrame implements Runnable{
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
-             }
+            }
         });
         JScrollPane listScrollPane = new JScrollPane();
         listScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -123,27 +123,21 @@ public class Server extends JFrame implements Runnable{
         ActionListener sendAction = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedClientNum = clientList.getSelectedValue();
-                if (selectedClientNum == -1) {
+                Integer selectedClientNum = clientList.getSelectedValue();
+                if (selectedClientNum == null ||selectedClientNum == -1) {
                     // no client selected, do nothing
                     return;
                 }
                 Socket selectedClientSocket = clientMap.get(selectedClientNum);
-                try {
-                    if(!serverChat.getText().isEmpty()){
-                        String serverMessage = serverChat.getText();
-                        toClient.writeUTF(serverMessage);
-                        serverChat.setText("");
+                if(!serverChat.getText().isEmpty()){
+                    String serverMessage = serverChat.getText();
+                    toClient.println(serverMessage);
+                    serverChat.setText("");
+                    synchronized (chatRecords) {
                         StringBuilder selectedClientRecord = chatRecords.get(selectedClientNum);
                         selectedClientRecord.append("You: " + serverMessage + '\n');
                         serverDisplay.setText(selectedClientRecord.toString());
-//                        if (selectedClientNum == clientList.getSelectedValue()) {
-//                            // update display only if the same client is still selected
-//
-//                        }
                     }
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
                 }
             }
         };
@@ -161,26 +155,28 @@ public class Server extends JFrame implements Runnable{
             this.clientMap = clients;
         }
         @Override
-        public void run(){
-            //initialize chat record for this client
+        public void run() {
             StringBuilder record = new StringBuilder();
             chatRecords.put(clientNum, record);
             record.append("One customer has connected. " + '\n');
             String clientName = null;
             try {
-                clientName = fromClient.readUTF();
+                clientName = fromClient.readLine();
                 record.append("Customer name: " + clientName + '\n');
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             //keep reading message from client and setting chat record
-            while(true){
-                try{
-                    String clientMessage = fromClient.readUTF();
+            while(true) {
+                try {
+                    String clientMessage = fromClient.readLine();
                     synchronized (chatRecords) {
                         record = chatRecords.get(clientNum);
                         record.append("Customer " + clientNum + ": " + clientMessage).append("\n");
                     }
+                    System.out.println("server: " + clientMessage);
+                    serverDisplay.setText(record.toString());
+                    //System.out.println(clientMessage);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -196,8 +192,8 @@ public class Server extends JFrame implements Runnable{
             serverDisplay.setText("Chat server started. " + '\n');
             while(true){
                 clientSocket = ss.accept();
-                fromClient = new DataInputStream(clientSocket.getInputStream());
-                toClient = new DataOutputStream(clientSocket.getOutputStream());
+                fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                toClient = new PrintWriter(clientSocket.getOutputStream(), true);
                 clientNo++;
                 //add new client into the clientMap and JList
                 clientMap.put(clientNo, clientSocket);

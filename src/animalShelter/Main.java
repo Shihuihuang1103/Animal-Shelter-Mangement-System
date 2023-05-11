@@ -27,6 +27,7 @@ public class Main extends JFrame{
     private JDBC db = new JDBC();
     private Connection connection;
     public static ArrayList<Animal> animalList = new ArrayList<Animal>();
+    private Boolean isServerStarted = false;
 
 
     public Main() throws SQLException {
@@ -191,10 +192,13 @@ public class Main extends JFrame{
         liveChat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Server server = new Server();
-                server.setVisible(true);
-                Thread serverThread = new Thread(server);
-                serverThread.start();
+                if(!isServerStarted){
+                    Server server = new Server();
+                    server.setVisible(true);
+                    Thread serverThread = new Thread(server);
+                    serverThread.start();
+                    isServerStarted = true;
+                }
 
                 Client client = new Client();
                 client.setVisible(true);
