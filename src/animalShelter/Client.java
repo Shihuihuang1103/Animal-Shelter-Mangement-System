@@ -184,7 +184,7 @@ public class Client extends JFrame implements Runnable{
                     String serverMessage = clientChat.getText();
                     toServer.println(serverMessage);
                     chatRecord += "You: " + serverMessage + "\n";
-                    System.out.println("client: " + serverMessage);
+//                    System.out.println("client: " + serverMessage);
                     clientDisplay.setText(chatRecord);
                     clientChat.setText("");
                 }
@@ -211,7 +211,7 @@ public class Client extends JFrame implements Runnable{
                 }
                 continue;
             }
-            while (true) {
+            while (socket != null && !socket.isClosed()) {
                 try {
                     String serverMessage = fromServer.readLine();
                     chatRecord += "LovelyPaws: " + serverMessage + "\n";

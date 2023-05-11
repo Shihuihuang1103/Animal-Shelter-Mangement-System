@@ -27,8 +27,7 @@ public class Server extends JFrame implements Runnable{
     private JList<Integer> clientList;
     private Socket clientSocket;
 
-    private BufferedReader fromClient;
-    private PrintWriter toClient;
+
     public Server(){
         setTitle("Lovely Paws Customer Service");
         setBounds(100, 100, 480, 350);
@@ -64,20 +63,32 @@ public class Server extends JFrame implements Runnable{
         clientList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                int selectedClientNum = clientList.getSelectedValue();
-                Socket selectedClientSocket = clientMap.get(selectedClientNum);
-                StringBuilder selectedClientRecord = chatRecords.get(selectedClientNum);
-                try {
-                    fromClient = new BufferedReader(new InputStreamReader(selectedClientSocket.getInputStream()));
-                    toClient = new PrintWriter(selectedClientSocket.getOutputStream(), true);
-                    if (selectedClientRecord != null) {
-                        serverDisplay.setText(selectedClientRecord.toString());
-                    } else {
-                        serverDisplay.setText("");
-                    }
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                if(clientList.getSelectedValue() == null){
+                    return;
                 }
+                int selectedClientNum = clientList.getSelectedValue();
+                StringBuilder selectedClientRecord = chatRecords.get(selectedClientNum);
+                if (selectedClientRecord != null && selectedClientNum == clientList.getSelectedValue()) {
+                    serverDisplay.setText(selectedClientRecord.toString());
+                } else {
+                    serverDisplay.setText("");
+                }
+//                try {
+//                    BufferedReader fromClient = new BufferedReader(new InputStreamReader(selectedClientSocket.getInputStream()));
+//                    PrintWriter toClient = new PrintWriter(selectedClientSocket.getOutputStream(), true);
+//                    String clientMsg = fromClient.readLine();
+//                    if (clientMsg != null) {
+//                        selectedClientRecord.append(clientMsg + "\n");
+//                        if (selectedClientRecord != null && selectedClientNum == clientList.getSelectedValue()) {
+//                            serverDisplay.setText(selectedClientRecord.toString());
+//                        } else {
+//                            serverDisplay.setText("");
+//                        }
+//                    }
+//                    toClient.println("You are now chatting with the server.");
+//                } catch (IOException ioException) {
+//                    ioException.printStackTrace();
+//                }
             }
         });
         JScrollPane listScrollPane = new JScrollPane();
@@ -129,15 +140,21 @@ public class Server extends JFrame implements Runnable{
                     return;
                 }
                 Socket selectedClientSocket = clientMap.get(selectedClientNum);
-                if(!serverChat.getText().isEmpty()){
-                    String serverMessage = serverChat.getText();
-                    toClient.println(serverMessage);
-                    serverChat.setText("");
-                    synchronized (chatRecords) {
-                        StringBuilder selectedClientRecord = chatRecords.get(selectedClientNum);
-                        selectedClientRecord.append("You: " + serverMessage + '\n');
-                        serverDisplay.setText(selectedClientRecord.toString());
+                PrintWriter toClient;
+                try {
+                    toClient = new PrintWriter(selectedClientSocket.getOutputStream(), true);
+                    if(!serverChat.getText().isEmpty()){
+                        String serverMessage = serverChat.getText();
+                        toClient.println(serverMessage);
+                        serverChat.setText("");
+                        synchronized (chatRecords) {
+                            StringBuilder selectedClientRecord = chatRecords.get(selectedClientNum);
+                            selectedClientRecord.append("You: " + serverMessage + '\n');
+                            serverDisplay.setText(selectedClientRecord.toString());
+                        }
                     }
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
         };
@@ -156,21 +173,24 @@ public class Server extends JFrame implements Runnable{
         @Override
         public void run() {
             //initialize chat record for this client with name and connection message
-            StringBuilder record = new StringBuilder();
-            chatRecords.put(clientNum, record);
-            record.append("One customer has connected. " + '\n');
-            String clientName = null;
+            BufferedReader fromClient;
             try {
+                fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                StringBuilder record = new StringBuilder();
+                chatRecords.put(clientNum, record);
+                record.append("One customer has connected. " + '\n');
+                String clientName = null;
                 clientName = fromClient.readLine();
                 record.append("Customer name: " + clientName + '\n');
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+
             //keep reading message from client and setting chat record
             while(true) {
                 try {
                     String clientMessage = fromClient.readLine();
-                    if (clientMessage != null) {
+                    if (clientSocket!=null && clientMessage != null) {
                         // check if the message is "DISCONNECT"
                         if (clientMessage.equals("DISCONNECT")) {
                             clientMap.remove(clientNum);
@@ -178,14 +198,13 @@ public class Server extends JFrame implements Runnable{
                             socket.close();
                             break;
                         }
+                        synchronized (chatRecords) {
+                            StringBuilder record = chatRecords.get(clientNum);
+                            record.append("Customer " + clientNum + ": " + clientMessage).append("\n");
+                            serverDisplay.setText(record.toString());
+                        }
                     }
-                    synchronized (chatRecords) {
-                        record = chatRecords.get(clientNum);
-                        record.append("Customer " + clientNum + ": " + clientMessage).append("\n");
-                    }
-                    System.out.println("server: " + clientMessage);
-                    serverDisplay.setText(record.toString());
-                    //System.out.println(clientMessage);
+//                    System.out.println("server: " + clientMessage);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -201,8 +220,6 @@ public class Server extends JFrame implements Runnable{
             serverDisplay.setText("Chat server started. " + '\n');
             while(true){
                 clientSocket = ss.accept();
-                fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                toClient = new PrintWriter(clientSocket.getOutputStream(), true);
                 clientNo++;
                 //add new client into the clientMap and JList
                 clientMap.put(clientNo, clientSocket);
