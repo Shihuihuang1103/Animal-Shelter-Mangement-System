@@ -34,6 +34,7 @@ public class Client extends JFrame implements Runnable{
     private PrintWriter toServer;
     private BufferedReader fromServer;
     private String chatRecord = "";
+    private boolean isConnected = false;
 
     public Client() {
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -156,23 +157,26 @@ public class Client extends JFrame implements Runnable{
         connect.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = nameInput.getText();
-                if (name.length() > 0) {
-                    chatRecord += "Welcome " + name + "!" + "\n" + "Our customer service will be ready to help you soon!"+"\n";
-                    clientDisplay.setText(chatRecord);
-                } else {
-                    chatRecord += "Please enter your name!"+"\n";
-                    clientDisplay.setText(chatRecord);
-                }
-                try{
-                    socket = new Socket("localhost", 9898);
-                    fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    toServer = new PrintWriter(socket.getOutputStream(), true);
-                    toServer.println(name);
-                } catch (Exception ex) {
-                    System.out.println(ex);
-                    chatRecord+= "Error connecting to server"+"\n";
-                    clientDisplay.setText(chatRecord);
+                if(!isConnected) {
+                    String name = nameInput.getText();
+                    if (name.length() > 0) {
+                        chatRecord += "Welcome " + name + "!" + "\n" + "Our customer service will be ready to help you soon!"+"\n";
+                        clientDisplay.setText(chatRecord);
+                    } else {
+                        chatRecord += "Please enter your name!"+"\n";
+                        clientDisplay.setText(chatRecord);
+                    }
+                    try{
+                        socket = new Socket("localhost", 9898);
+                        fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                        toServer = new PrintWriter(socket.getOutputStream(), true);
+                        toServer.println(name);
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                        chatRecord+= "Error connecting to server"+"\n";
+                        clientDisplay.setText(chatRecord);
+                    }
+                    isConnected = true;
                 }
             }
         });
@@ -221,5 +225,10 @@ public class Client extends JFrame implements Runnable{
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        Client client = new Client();
+        client.run();
     }
 }
