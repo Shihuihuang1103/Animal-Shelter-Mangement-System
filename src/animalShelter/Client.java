@@ -195,10 +195,10 @@ public class Client extends JFrame implements Runnable{
         clientChat.addActionListener(sendAction);
   }
 
-    public static void main(String[] args){
-        Client client = new Client();
-        client.run();
-    }
+//    public static void main(String[] args){
+//        Client client = new Client();
+//        client.run();
+//    }
 
     @Override
     public void run() {
