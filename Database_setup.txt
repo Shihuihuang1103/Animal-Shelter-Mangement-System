@@ -1,0 +1,50 @@
+CREATE DATABASE LovelyPawsShelter;
+
+USE LovelyPawsShelter;
+
+CREATE TABLE admin (
+  username VARCHAR(20) NOT NULL PRIMARY KEY COLLATE utf8_general_ci,
+  password VARCHAR(20) NOT NULL COLLATE utf8_general_ci
+);
+
+CREATE TABLE adoption (
+  email VARCHAR(30) NOT NULL COLLATE utf8_general_ci,
+  fname VARCHAR(20) NOT NULL COLLATE utf8_general_ci,
+  lname VARCHAR(20) NOT NULL COLLATE utf8_general_ci,
+  petID int(10) NOT NULL,
+  phoneNum VARCHAR(10) NOT NULL,
+  statement VARCHAR(2000) NOT NULL COLLATE utf8_general_ci,
+  PRIMARY KEY (email, petID)
+);
+
+CREATE TABLE animal (
+  petID int(10) NOT NULL PRIMARY KEY,
+  name VARCHAR(10) NOT NULL COLLATE utf8_general_ci,
+  breed VARCHAR(20) NOT NULL COLLATE utf8_general_ci,
+  gender VARCHAR(6) NOT NULL COLLATE utf8_general_ci,
+  age int(2) NOT NULL,
+  description VARCHAR(500) NOT NULL COLLATE utf8_general_ci
+);
+
+CREATE TABLE appointment (
+  email VARCHAR(30) NOT NULL COLLATE utf8_general_ci,
+  fname VARCHAR(20) NOT NULL COLLATE utf8_general_ci,
+  lname VARCHAR(20) NOT NULL COLLATE utf8_general_ci,
+  date date NOT NULL,
+  time VARCHAR(2) NOT NULL COLLATE utf8_general_ci,
+  PRIMARY KEY(email, date, time)
+);
+
+INSERT INTO `admin` (`username`, `password`) VALUES ('admin', '12345');
+
+INSERT INTO `animal` (`petID`, `name`, `breed`, `gender`, `age`, `description`) VALUES 
+('001', 'Max', 'Golden Retriever', 'Male', '2', 'Max is a friendly and energetic Golden Retriever. He loves playing fetch and going for long walks. He\'s great with kids and other pets, and would make a great addition to any family.'), 
+('002', 'Luna', 'Siamese', 'Female', '5', 'Luna is a beautiful Siamese cat with piercing blue eyes. She\'s independent but also loves to cuddle. She\'s great with other cats and enjoys lounging in sunny spots. Luna would make a great companion for anyone looking for a low-maintenance pet.'), 
+('003', 'Rocky', 'Pitbull', 'Male', '1', 'Rocky is a lovable Pitbull who loves to play and cuddle. He\'s great with kids and other pets, and is always eager to please. Rocky is still a puppy at heart and would do best in a home with an active family who can give him plenty of exercise and attention.'), 
+('004', 'Ginger', 'Tabby', 'Female', '3', 'Ginger is a sweet and affectionate Tabby cat. She loves to play and is always up for a good cuddle. She\'s great with kids and other cats, and would make a great companion for anyone looking for a low-key pet.'), 
+('005', 'Baxter', 'Poodle', 'Male', '4', 'Baxter is a friendly and playful poodle. He loves to go for walks and play fetch. He\'s great with kids and other dogs, and would make a great addition to any family. Baxter does have some separation anxiety, so he would do best in a home where someone is around most of the time.'),
+('006', 'Milo', 'Golden Retriever', 'Male', '2', 'Milo is a playful and energetic golden retriever. He loves to play fetch and go for long walks. He is great with kids and other dogs, and loves to cuddle up on the couch at the end of a long day. Milo is crate trained and housebroken.'),
+('007', 'Max', 'German Shepherd', 'Male', '1', 'Max is a loyal and energetic German Shepherd. He loves to play fetch and go for long walks. He is great with kids and other dogs, and loves to cuddle up with his family. Max is crate trained and knows basic obedience commands.'),
+('008', 'Rufus', 'Bulldog', 'Male', '3', 'Rufus is a gentle and loyal bulldog. He loves to cuddle up on the couch and watch TV with his family. He is great with kids and other pets, and loves to go for walks in the park. Rufus is crate trained and knows basic obedience commands.'),
+('009', 'Sasha', 'Siberian Husky', 'Female', '5', 'Sasha is a beautiful and adventurous Siberian husky. She loves to go for runs and play in the snow. She is great with older kids and adults, but can be a bit too energetic for small children. Sasha is crate trained and knows basic obedience commands.'),
+('010', 'Simba', 'Maine Coon', 'Male', '2', 'Simba is a majestic and affectionate Maine Coon cat. He loves to be around people and will follow you around the house. He is great with other cats and would do well in a home with multiple pets. Simba is litter box trained and up to date on all his shots.');
