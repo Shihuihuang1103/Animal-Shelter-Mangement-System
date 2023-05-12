@@ -23,6 +23,9 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+CREATE DATABASE LovelyPawsShelter;
+
+USE LovelyPawsShelter;
 --
 -- Table structure for table `admin`
 --
