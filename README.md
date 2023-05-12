@@ -1,12 +1,12 @@
-# CS9053-Java-Final-Project  \
+# CS9053-Java-Final-Project  
 
-Project Name: Animal Shelter Management System  \  
-Group Member: Wanzhao Cheng, Shihui Huang  \  
+Project Name: Animal Shelter Management System    
+Group Member: Wanzhao Cheng, Shihui Huang    
 
-Tech used: Java, Swing GUI, JDBC  \  
-Database: MySQL. \  
-Software: IntelliJ IDEA  \ 
-Control Panel: phpMyAdmin  \  
+Tech used: Java, Swing GUI, JDBC    
+Database: MySQL     
+Software: IntelliJ IDEA   
+Control Panel: phpMyAdmin    
 
 # How to run this project?  
 **Step 1**: Copy the repo URL by clicking on clone or download  \
@@ -17,4 +17,4 @@ Control Panel: phpMyAdmin  \
     Admin Login:  \
     Username: admin  \
     Password: 12345  \
-**Step 6**: After clicking "Live Customer Service", run "Client" to test the chat function  \    
+**Step 6**: After clicking "Live Customer Service", run "Client" to test the chat function      
